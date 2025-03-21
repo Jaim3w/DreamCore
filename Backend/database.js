@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { config } from "./src/config.js";
-//1- Configurar la URI de la base de datos
-//const URI =""; 
+
 
 
 
