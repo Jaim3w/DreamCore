@@ -44,6 +44,11 @@ const clientsSchema = new Schema(
         type:String,
         require:true,
       },
+},{
+  timestamps: true,
+  strict:false
 }
 
 )
+
+export default model("clients", clientsSchema)
