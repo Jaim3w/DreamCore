@@ -3,8 +3,6 @@ import { config } from "./src/config.js";
 //1- Configurar la URI de la base de datos
 //const URI =""; 
 
-
-
 //2- Conecto la base de datos
 mongoose.connect(config.db.URI);
 
