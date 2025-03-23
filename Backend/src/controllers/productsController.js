@@ -53,7 +53,7 @@ productsController.updateProducts= async (req, res) => {
   try {
     const updateProducts = await productsModel.findByIdAndUpdate(
       req.params.id,
-      { idCategory, idBrand, productName, description,price,stock, productImage  },
+      { idCategory, idBrand, productName, description,price,stock, productImage },
       { new: true }
     )
     .populate("idCategory", "categoryName")

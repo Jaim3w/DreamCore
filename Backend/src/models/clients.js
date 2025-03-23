@@ -14,7 +14,7 @@ ProfilePicture
 
 
 
-import { Schema } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const clientsSchema = new Schema(
 {

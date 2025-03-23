@@ -11,7 +11,7 @@ productImage
 
 
 
-import { Schema } from "mongoose";
+import { Schema, model} from "mongoose";
 
 const productsSchema = new Schema(
 {
