@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import salesController from '../controllers/salesController';
+import salesController from '../controllers/salesController.js';
 
 router.route('/')
     .get(salesController.getSales)

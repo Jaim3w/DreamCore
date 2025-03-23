@@ -31,4 +31,4 @@ const brandsSchema = new Schema(
   }
 );
 
-export default model("Brands", brandsSchema);
+export default model("brands", brandsSchema);

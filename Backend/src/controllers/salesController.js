@@ -1,12 +1,12 @@
-import Sales from '../models/sales';
-import Orders from '../models/orders';
+import Sales from '../models/sales.js';
+import Orders from '../models/orders.js';
 
 const salesController = {};
 
 //Read :Obtiene toda las ventas
 
 salesController.getSales = async (req, res) => {
-     try {const sales = await Sales.find()-populate('idOrder');
+     try {const sales = await Sales.find().populate('idOrder');
     res.json(sales);
      } catch (error) {
     res.status(500).json({
@@ -68,11 +68,12 @@ res.json({ message: "sale updated successfully" });
 
 
 
-} catch (error) {}
-res
-.status(400)
-.json({
-    message: "Error updating sale", error: error.message });
+} catch (error) {
+    res
+    .status(400)
+    .json({
+        message: "Error updating sale", error: error.message });
+}
 };
 
 //Delete: Elimina una venta

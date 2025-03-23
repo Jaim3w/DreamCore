@@ -9,7 +9,7 @@ clientsController.createClients = async (req, res) => {
     const { name, lastName, email, password, birthDate, phone, profilePicture} = req.body;
     const newClient = new clientsModel({ name, lastName, email, password, birthDate, phone, profilePicture});
     await newClient.save();
-    res.json({ message: "product saved" });
+    res.json({ message: "client saved" });
   };
 
 // OBTENER TODOS LOS CLIENTES
@@ -56,7 +56,7 @@ clientsController.updateClients = async (req, res) => {
         password,
         birthDate,
         phone,
-        profilePicture: profilePicture || null, // Si no se envía DUI, se establece como null
+        profilePicture: profilePicture || null, 
       },
       { new: true }
     );

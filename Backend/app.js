@@ -7,7 +7,7 @@ import salesRoutes from "./src/routes/sales.js";
 import clientsRoutes from "./src/routes/Clients.js";
 import reviewsRoutes from "./src/routes/Reviews.js";
 import productsRoutes from "./src/routes/Products.js"
-import ordersRoutes from "./src/routes/orders.jsS"
+import ordersRoutes from "./src/routes/orders.js"
 
 // Creo una constante que es igual a la libreria que
 // acabo de importar y lo ejecuto

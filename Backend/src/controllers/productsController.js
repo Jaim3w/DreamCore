@@ -1,4 +1,6 @@
 import productsModel from "../models/products.js";
+import Categories from "../models/Categories.js";
+import brandsController from "./brandsController.js";
 
 const productsController = {};
 
@@ -46,7 +48,7 @@ productsController.updateProducts= async (req, res) => {
   const{ idCategory, idBrand, productName, description,price,stock, productImage  } = req.body;
 
   // Validación de campos requeridos
-  if (!idCategory || !idBrand || !productName || !description||price||stock||productImage ) {
+  if (!idCategory || !idBrand || !productName || !description||!price||!stock||!productImage ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
