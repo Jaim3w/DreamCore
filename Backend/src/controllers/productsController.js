@@ -5,31 +5,31 @@ const productsController = {};
 
 //Ingresar review
 
-reviewsController.createProducts = async (req, res) => {
+productsController.createProducts = async (req, res) => {
     const { idCategory, idBrand, productName, description,price,stock, productImage  } = req.body;
     const newProducts = new productsModel({ idCategory, idBrand, productName, description,price,stock, productImage });
     await newProducts.save();
     res.json({ message: "review saved" });
   };
 
-// OBTENER TODOS Las reviews
-reviewsController.getReviews = async (req, res) => {
+// OBTENER TODOS Las producto
+productsController.getProducts = async (req, res) => {
   try {
-    const review = await reviewsModel.find()
-    .populate("idClient", "name")
-    .populate("idProduct", "productName");
+    const review = await productsModel.find()
+    .populate("idCategory", "categoryName")
+    .populate("idBrand", "brandName");
     res.status(200).json(review);
   } catch (error) {
     res.status(500).json({ message: "Error", error: error.message });
   }
 };
 
-// OBTENER UN CLIENTE POR ID
-reviewsController.getReview= async (req, res) => {
+// OBTENER UN producto POR ID
+productsController.getproduct= async (req, res) => {
   try {
-    const review = await reviewsModel.findById(req.params.id)
-    .populate("idClient", "name")
-    .populate("idProduct", "productName");
+    const review = await productsModel.findById(req.params.id)
+    .populate("idCategory", "categoryName")
+    .populate("idBrand", "brandName");
     if (!review) {
       return res.status(404).json({ message: "review not found" });
     }
@@ -41,27 +41,25 @@ reviewsController.getReview= async (req, res) => {
 
 
 
-// ACTUALIZAR UN CLIENTE
-reviewsController.updateReviews= async (req, res) => {
-  const { idClient, idProduct, title, message, } = req.body;
+// ACTUALIZAR UN producto
+productsController.updateProducts= async (req, res) => {
+  const{ idCategory, idBrand, productName, description,price,stock, productImage  } = req.body;
 
   // Validación de campos requeridos
-  if (!idClient || !idProduct || !title || !message ) {
+  if (!idCategory || !idBrand || !productName || !description||price||stock||productImage ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
-    const updateReview = await reviewsModel.findByIdAndUpdate(
+    const updateProducts = await productsModel.findByIdAndUpdate(
       req.params.id,
-      {
-         idClient, idProduct, title, message, 
-      },
+      { idCategory, idBrand, productName, description,price,stock, productImage  },
       { new: true }
     )
-    .populate("idClient", "name")
-      .populate("idProduct", "productName");
+    .populate("idCategory", "categoryName")
+    .populate("idBrand", "brandName");
 
-    if (!updateReview) {
+    if (!updateProducts) {
       return res.status(404).json({ message: "reiew not found" });
     }
 
@@ -71,17 +69,17 @@ reviewsController.updateReviews= async (req, res) => {
   }
 };
 
-// ELIMINAR UN CLIENTE
-reviewsController.deleteReviews = async (req, res) => {
+// ELIMINAR UN producto
+productsController.deleteProducts = async (req, res) => {
   try {
-    const deletedReviews = await reviewsModel.findByIdAndDelete(req.params.id);
-    if (!deletedReviews) {
-      return res.status(404).json({ message: "review not found" });
+    const deleteProducts = await productsModel.findByIdAndDelete(req.params.id);
+    if (!deleteProducts) {
+      return res.status(404).json({ message: "peroduct not found" });
     }
-    res.json({ message: "review deleted"});
+    res.json({ message: "product deleted"});
   } catch (error) {
     res.status(500).json({ message: "Error ", error: error.message });
   }
 };
 
-export default reviewsController;
+export default productsController;
