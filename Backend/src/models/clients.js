@@ -48,16 +48,6 @@ const clientsSchema = new Schema(
         minlength: 6,
         
       },
-<<<<<<< HEAD
-},{
-  timestamps: true,
-  strict:false
-}
-
-)
-
-export default model("clients", clientsSchema)
-=======
       birthDate:{
       type:Date,
       require:true,
@@ -80,4 +70,3 @@ export default model("clients", clientsSchema)
 
 );
 export default model("clients", clientsSchema);
->>>>>>> 39598ce2a1e3d0f185caf8931d277cdc077ed2bd
