@@ -19,12 +19,12 @@ const productsSchema = new Schema(
     idCategory:{
         type: Schema.Types.ObjectId,
         ref: "categories", 
-        required: [true, ""],
+        required: [true, "El ID del catefories es obligatorio"],
       },
       idBrand:{
         type: Schema.Types.ObjectId,
         ref: "brands", 
-        required: [true, ""],
+        required: [true, "El ID del brands es obligatorio"],
       }, 
       productName:{
         type:String,
@@ -59,4 +59,4 @@ const productsSchema = new Schema(
 }
 
 );productsSchema
-export default model("products", clientsSchema);
+export default model("products", productsSchema);
