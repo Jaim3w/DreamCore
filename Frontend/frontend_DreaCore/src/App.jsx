@@ -1,17 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {BrowserRouter as Router, Routes, Route} 
+from 'react-router'
 import "tailwindcss";
 
+import Home from './pages/Home'
+import About from './pages/About'
+import Header from './components/Header'
+
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-   <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <Router>
+    <Header />
+    <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/about" element={<About />} />
+    </Routes>
+    </Router>
     </>
   )
 }
