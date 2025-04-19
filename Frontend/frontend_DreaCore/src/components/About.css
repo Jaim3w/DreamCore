@@ -1,0 +1,123 @@
+body {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .eventos-section {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #fff;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  
+  .text-content {
+    flex: 1;
+    min-width: 300px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .title-bold {
+    color: #000000;
+    padding-right: 2px;
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+  
+  .title-light {
+    padding-left: 2px;
+    font-weight: 300;
+    font-size: 1.8rem;
+    color: #000000;
+  }
+  
+  .underline {
+    width: 90px;
+    height: 3px;
+    background-color: #014421;
+    margin: 0.5rem 0 1.5rem 0;
+  }
+  
+  .text-content p {
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  
+  .iconos {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+  }
+  
+  .iconos div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #014421;
+    font-weight: 500;
+  }
+  
+  .icono {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .imagenes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+  
+  .imagenes-superpuestas {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 2rem;
+    gap: 10px;
+    height: 220px; /* Altura para permitir el espacio a la imagen central más alta */
+  }
+  
+  .img {
+    width: 160px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1;
+  }
+  
+  /* Efecto hover */
+  .img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Imagen central por encima */
+  .img-center {
+    position: relative;
+    top: -50px;
+    z-index: 2;
+  }
+  
+  
+  .img1 {
+    grid-area: img1;
+    height: 150px;
+  }
+  
+  .img2 {
+    grid-area: img2;
+    height: 150px;
+  }
+  
+  .img3 {
+    grid-area: img3;
+    height: 150px;
+  }
+  

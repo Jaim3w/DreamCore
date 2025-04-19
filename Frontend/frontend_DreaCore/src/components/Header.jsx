@@ -1,8 +1,6 @@
 import React from 'react';
 //librería par los iconos de arribita
 import { FaFacebookF, FaInstagram, FaWhatsapp, FaShoppingCart, FaUser } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { BsTelephone } from 'react-icons/bs';
 //importe el logo que va en medio
 import logo from "../assets/logonav.png";
 
@@ -15,8 +13,8 @@ const Header = () => {
       {/* Parte de arribita informartiva */}
       <div className="top-bar">
         <div className="contact-info">
-          <span><MdEmail className="icon" /> dreamcore@gmail.com</span>
-          <span><BsTelephone className="icon" /> |  (503) 7656 1893</span>
+          <span>dreamcore@gmail.com</span>
+          <span>|  (503) 7656 1893</span>
         </div>
         <div className="social-info">
           <span>DreamCore</span>
@@ -32,16 +30,15 @@ const Header = () => {
     <FaWhatsapp className="icon" />
   </a>
           <span>|  Eventos Boutique</span>
-          <FaUser className="icon" />
           <FaShoppingCart className="icon" />
+          <FaUser className="icon" />
         </div>
       </div>
 
       {/* Nav bar */}
       <nav className="nav-bar">
-        <a href="#">Inicio</a>
-        <a href="#">Quiénes Somos</a>
-
+        <a href="/">Inicio</a>
+        <a href="/about">Quiénes Somos</a>
         {/* Logo de en medio */}
         <a href="#" className="logo-container">
           <img src={logo} alt="DreamCore Logo" />
