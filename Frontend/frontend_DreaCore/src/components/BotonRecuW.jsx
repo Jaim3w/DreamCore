@@ -15,3 +15,5 @@ const BotonRecuW = ({ children, onClick, className = "" }) => {
 };
 
 export default BotonRecuW;
+
+//se dividio los botones en dos componentes para posteriormente usar cada uno en este caso el color es blanco por eso el W

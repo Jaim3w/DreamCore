@@ -14,3 +14,4 @@ const BotonRecu = ({ children, onClick, className = "" }) => {
 };
 
 export default BotonRecu;
+//se dividio los botones en dos componentes para posteriormente usar cada uno en este caso el color es verde 
