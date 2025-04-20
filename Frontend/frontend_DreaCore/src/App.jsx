@@ -7,6 +7,8 @@ import Footer from './components/Footer';
 import RecoverPassword from './pages/RecoverPassword';
 import Categories from './pages/Categories';
 import Products from './pages/Products'
+import CheckNumber from './pages/CheckNumber'
+import NewPassword from './pages/NewPassword'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/terminos" element={<Terminos />} />
             <Route path="/RecoverPassword" element={<RecoverPassword />} />
+            <Route path="/CheckNumber" element={<CheckNumber />} />
+            <Route path="/NewPassword" element={<NewPassword />} />
             <Route path="/productos" element={<Categories />} />
             <Route path="/productos/:categoria" element={<Products />} />
           </Routes>
