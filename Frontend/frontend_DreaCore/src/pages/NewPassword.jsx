@@ -28,7 +28,7 @@ const RecoverPassword = () => {
   className="mb-6 border border-gray-300 rounded-lg px-4 py-3 text-sm w-full placeholder:text-gray-600 text-black bg-[rgba(196,196,196,0.27)]"
 />
           <div className="flex gap-6 mb-10">
-          <BotonRecu className="w-full">Restablecer contraseña</BotonRecu>
+          <BotonRecu className="w-full">Restablecer contraseña</BotonRecu> // el boton es para restablecer la contraseña quye creamos anteriormente
           </div>
           {/* Indicadores centrados */}
           <div className="mt-10 flex gap-3 justify-center">
@@ -36,9 +36,10 @@ const RecoverPassword = () => {
             <span className="w-5 h-1.5 bg-green-800 rounded-full"></span>
             <span className="w-5 h-1.5 bg-green-800 rounded-full"></span>
           </div>
-        </div>
+        </div> // indicador de por cual pantalla va el usuario.
 
-        <motion.div
+        <motion.div // animación de la imagen para que aparezca de la derecha a la izquierda
+          // y se vea más fluido el cambio de pantalla
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}

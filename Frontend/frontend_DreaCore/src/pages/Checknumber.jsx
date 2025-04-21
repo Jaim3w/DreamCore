@@ -63,7 +63,7 @@ const VerificarCodigo = () => {
           </div>
 
           <div className="flex justify-self-center mb-6">
-  <BotonRecu className="px-4 py-1.5 text-sm w-fit">Verificar Código</BotonRecu>
+  <BotonRecu className="px-4 py-1.5 text-sm w-fit">Verificar Código</BotonRecu> // Botón para verificar el código ingresado por el usuario es el boton que creanmos anteriormente
 </div>
           {/* Reenviar código */}
           <p className=" py-4 text-sm text-gray-600 text-center max-md:">
@@ -82,7 +82,8 @@ const VerificarCodigo = () => {
         </div>
 
         {/* Imagen animada */}
-        <motion.div
+        <motion.div // animación de la imagen para que aparezca de la derecha a la izquierda
+          // y se vea más fluido el cambio de pantalla
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
