@@ -6,8 +6,6 @@ import InputDigito  from "../components/InputDigito";
 import  { useState } from "react";
 import { useRef } from "react"; 
 
-
-
 const VerificarCodigo = () => {
     const [codigo, setCodigo] = useState(Array(5).fill("")); 
     const inputsRef = useRef([]); // referencias para cambiar el foco automáticamente
@@ -64,8 +62,6 @@ const VerificarCodigo = () => {
             ))}
           </div>
 
-
-    
           <div className="flex justify-self-center mb-6">
   <BotonRecu className="px-4 py-1.5 text-sm w-fit">Verificar Código</BotonRecu>
 </div>

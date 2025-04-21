@@ -1,21 +1,24 @@
 import React from "react";
-// Css
+// Css de la página about porque use algunas cositas
 import "../components/About.css";
 
 const Terminos = () => {
   return (
+
+     // Sección con padding alto para dejar espacio por el navbar fijo
     <div className="eventos-section" style={{ paddingTop: "200px" }}>
+
       <div className="text-content">
-        <center>
-          <h2>
+        <center><h2>
   <span className="title-bold">Términos  </span>
   <span className="title-bold"><i>y</i></span>{" "}
   <span className="title-light">Condiciones</span>
 </h2>
-
+          //Línea verdesita 
           <div className="underline"></div>
         </center>
 
+       //Todo el texto de los términos y condiciones
         <p>
           <strong>Fecha de última actualización: Febrero del 2025</strong> Bienvenido a DreamCore. Al acceder y utilizar este sitio web, usted acepta los siguientes Términos y Condiciones. Si no está de acuerdo con ellos, por favor, no utilice este sitio.
         </p>
