@@ -1,7 +1,16 @@
-import React from "react";
+import React, {useState}from "react";
 import backgroundImage from "../../assets/imagenlogin2.jpg";
+import dreamCoreLogo from "../../assets/DreamCore.png";
+import eyeOpen from "../../assets/eye-open.png"; // Imagen para mostrar contraseña
+import eyeClosed from "../../assets/eye-closed.png"; // Imagen para ocultar contraseña
+
 
 function Login() {
+//Se creo un estado para el password y su visibilidad
+   const[showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword);
+    };
   return (
     <div
       className="h-screen w-screen flex items-center justify-center bg-cover bg-center"
@@ -13,10 +22,10 @@ function Login() {
     >
       {/* Card */}
       <div className="bg-white/70 backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-8 sm:max-w-md w-full max-w-xs">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-4">
           <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+            className="mx-auto h-40 w-auto"
+            src={dreamCoreLogo}
             alt="Your Company"
           />
           <h1 className="text-center text-2xl sm:text-3xl font-bold tracking-tight text-[#1C4C38]">
@@ -54,9 +63,9 @@ function Login() {
               >
                 Password
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   id="password"
                   autoComplete="current-password"
@@ -64,6 +73,17 @@ function Login() {
                   placeholder="Enter your password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900 outline outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
                 />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-3 flex items-center"
+                >
+                  <img
+                    className="h-6 w-6 object-contain opacity-75 border border-gray-300 rounded shadow-sm"
+                    src={showPassword ? eyeOpen : eyeClosed}
+                    alt={showPassword ? "Hide password" : "Show password"}
+                  />
+                </button>
               </div>
               <div className="mt-2 text-right">
                 <a
@@ -90,7 +110,7 @@ function Login() {
               >
                 Sign up
               </a>
-            </div>
+            </div>     
           </form>
         </div>
       </div>
