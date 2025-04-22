@@ -6,7 +6,7 @@ const Terminos = () => {
   return (
 
      // Sección con padding alto para dejar espacio por el navbar fijo
-    <div className="eventos-section" style={{ paddingTop: "200px" }}>
+    <div className="eventos-section" style={{ paddingTop: "20px" }}>
 
       <div className="text-content">
         <center><h2>

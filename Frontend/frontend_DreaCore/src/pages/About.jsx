@@ -15,7 +15,7 @@ const EventosBoutique = () => {
   return (
 
      // Sección con padding alto para dejar espacio por el navbar fijo
-    <div className="eventos-section" style={{ paddingTop: "200px" }}>
+    <div className="eventos-section" style={{ paddingTop: "80px" }}>
 
       <div className="text-content">
         <center><h2> <span className="title-bold">EVENTOS       </span>{""}<span className="title-light">     BOUTIQUE</span></h2>
