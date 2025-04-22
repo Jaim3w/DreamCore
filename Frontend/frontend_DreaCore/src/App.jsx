@@ -14,7 +14,7 @@ import CheckNumber from './pages/CheckNumber'
 import NewPassword from './pages/NewPassword'
 import Contactanos from './pages/Contactanos'
 import Login from './pages/login';
-import SingUp from './pages/SignUp';
+import ShoppingCart from './pages/ShoppingCart';
 import SignUp from './pages/SignUp';
 
 // Componente principal de la aplicación
@@ -39,6 +39,7 @@ function App() {
             <Route path="/contactanos" element={<Contactanos />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/shoppingcart" element={<ShoppingCart />} />
             {/* Ruta por defecto que redirige a la página de inicio */}
             
 
