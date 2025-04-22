@@ -13,6 +13,9 @@ import Products from './pages/Products'
 import CheckNumber from './pages/CheckNumber'
 import NewPassword from './pages/NewPassword'
 import Contactanos from './pages/Contactanos'
+import Login from './pages/login';
+import SingUp from './pages/SignUp';
+import SignUp from './pages/SignUp';
 
 // Componente principal de la aplicación
 function App() {
@@ -34,6 +37,11 @@ function App() {
             <Route path="/productos" element={<Categories />} />
             <Route path="/productos/:categoria" element={<Products />} />
             <Route path="/contactanos" element={<Contactanos />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            {/* Ruta por defecto que redirige a la página de inicio */}
+            
+
           </Routes>
         </main>
          {/* Pie de página que también se muestra en todas las páginas */}
