@@ -17,6 +17,7 @@ import Login from './pages/login';
 import ShoppingCart from './pages/ShoppingCart';
 import SignUp from './pages/SignUp';
 
+
 // Componente principal de la aplicación
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
     <Router>
       {/* Contenedor principal con diseño de columna y altura mínima de pantalla */}
       <div className="flex flex-col min-h-screen bg-white">
-        <Header />
+       
         <main className="flex-grow">
           <Routes>
             {/* Definimos cada ruta de la app y qué componente se debe mostrar */}
