@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import trashIcon from "../assets/trash(2).png";
 
+// Componente principal del carrito de compras
 function ShoppingCart() {
+  // Estado local para los productos en el carrito
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -22,7 +25,7 @@ function ShoppingCart() {
     },
   ]);
 
-  // Función para incrementar la cantidad
+  // Función para incrementar la cantidad de un producto
   const incrementQuantity = (id) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -33,7 +36,7 @@ function ShoppingCart() {
     );
   };
 
-  // Función para decrementar la cantidad
+  // Función para decrementar la cantidad de un producto (mínimo 1)
   const decrementQuantity = (id) => {
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
@@ -44,104 +47,138 @@ function ShoppingCart() {
     );
   };
 
+  // Función para eliminar un producto del carrito
+  const removeProduct = (id) => {
+    setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
+  };
+
+  // Renderizado del componente
   return (
+    // Fondo y contenedor principal del modal del carrito
     <div className="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+      {/* Fondo oscuro semitransparente */}
       <div className="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
       <div className="fixed inset-0 overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
+          {/* Panel lateral derecho */}
           <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
             <div className="pointer-events-auto w-screen max-w-md">
+              {/* Contenedor blanco con sombra */}
               <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                {/* Sección superior del carrito */}
                 <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-                  <div className="flex items-start justify-between">
-                    <h2 className="text-lg font-medium text-gray-900" id="slide-over-title">
-                      Shopping cart
-                    </h2>
+                  {/* Botón para cerrar el carrito */}
+                  <div className="flex items-start justify-start">
+                    <button
+                      onClick={() => onClose()} // Esta función debe ser pasada como prop desde el componente padre
+                      className="bg-transparent p-1 hover:opacity-75"
+                      aria-label="Close cart"
+                    >
+                      {/* Ícono de X */}
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-6 w-6 text-[#1C4C38]" 
+                        fill="none" 
+                        viewBox="0 0 24 24" 
+                        stroke="currentColor"
+                      >
+                        <path 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round" 
+                          strokeWidth={2} 
+                          d="M6 18L18 6M6 6l12 12" 
+                        />
+                      </svg>
+                    </button>
                   </div>
+                  {/* Lista de productos */}
                   <div className="mt-8">
                     <div className="flow-root">
                       <ul role="list" className="-my-6 divide-y divide-gray-200">
                         {products.map((product) => (
-                          <li key={product.id} className="flex py-6">
-                            {/* Card en fila */}
-                            <div className="flex flex-row items-center bg-gray-100 rounded-lg p-4 shadow-md w-full">
-                              {/* Imagen circular en el lado izquierdo */}
-                              <div className="w-24 h-24 rounded-full shadow-md bg-white flex items-center justify-center overflow-hidden">
+                          <li key={product.id} className="relative flex py-6">
+                            {/* Card del producto */}
+                            <div className="relative flex flex-row items-center bg-white rounded-lg p-4 shadow-lg w-full">
+                              {/* Imagen del producto */}
+                              <div className="w-24 h-24 shadow-md bg-white flex items-center justify-center overflow-hidden">
                                 <img
                                   src={product.image}
                                   alt={product.description}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-contain"
                                 />
                               </div>
-
-                              {/* Contenido en el lado derecho */}
+                              {/* Contenido: nombre, precio y contador */}
                               <div className="ml-4 flex flex-1 flex-col">
                                 <div>
                                   <h3 className="text-base font-medium text-gray-900">{product.name}</h3>
-                                  <p className="text-sm text-gray-500">{product.description}</p>
-                                  <p className="mt-2 text-lg font-semibold text-gray-900">
-                                    ${product.price.toFixed(2)}
-                                  </p>
                                 </div>
-                                <div className="flex flex-1 items-end justify-between text-sm mt-4">
-                                  <div className="flex items-center space-x-2">
+                                {/* Precio y contador */}
+                                <div className="flex items-center justify-between mt-4">
+                                  {/* Precio */}
+                                  <p className="text-lg font-semibold text-[#1C4C38]">${product.price.toFixed(2)}</p>
+                                  {/* Contador de cantidad */}
+                                  <div className="flex items-center border-2 border-[#1C4C38] rounded-xl p-0.5">
                                     <button
                                       type="button"
                                       onClick={() => decrementQuantity(product.id)}
-                                      className="px-2 py-1 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300"
+                                      className="w-7 h-7 rounded-lg text-[#1C4C38] font-semibold bg-transparent hover:bg-[#1C4C38] hover:text-white flex items-center justify-center"
                                     >
                                       -
                                     </button>
-                                    <p className="text-gray-500">Qty: {product.quantity}</p>
+                                    <p className="mx-2 text-[#1C4C38] font-semibold text-sm">{product.quantity}</p>
                                     <button
                                       type="button"
                                       onClick={() => incrementQuantity(product.id)}
-                                      className="px-2 py-1 bg-gray-200 rounded-md text-gray-700 hover:bg-gray-300"
+                                      className="w-7 h-7 rounded-lg text-[#1C4C38] font-semibold bg-transparent hover:bg-[#1C4C38] hover:text-white flex items-center justify-center"
                                     >
                                       +
                                     </button>
                                   </div>
                                 </div>
                               </div>
+                              {/* Botón para eliminar producto */}
+                              <button
+                                onClick={() => removeProduct(product.id)}
+                                className="absolute top-2 right-2 bg-transparent"
+                                aria-label="Remove product"
+                              >
+                                <img
+                                  src={trashIcon}
+                                  alt="Eliminar producto"
+                                  className="w-5 h-5"
+                                />
+                              </button>
                             </div>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  </div>
-                </div>
-                <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                  <div className="flex justify-between text-base font-medium text-gray-900">
-                    <p>Subtotal</p>
-                    <p>
-                      $
-                      {products
-                        .reduce((total, product) => total + product.price * product.quantity, 0)
-                        .toFixed(2)}
-                    </p>
-                  </div>
-                  <p className="mt-0.5 text-sm text-gray-500">
-                    Shipping and taxes calculated at checkout.
-                  </p>
-                  <div className="mt-6">
-                    <a
-                      href="#"
-                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    >
-                      Checkout
-                    </a>
-                  </div>
-                  <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                    <p>
-                      or{" "}
+                    {/* Botón para buscar más productos */}
+                    <div className="mt-6 flex justify-center">
                       <button
                         type="button"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                        className="w-[90%] px-6 py-3 text-base font-medium rounded-lg text-[#1C4C38] bg-white border-2 border-solid text-center"
+                        style={{ borderColor: '#1C4C38' }}
                       >
-                        Continue Shopping<span aria-hidden="true"> &rarr;</span>
+                        Buscar más productos
                       </button>
+                    </div>
+                  </div>
+                </div>
+                {/* Sección inferior: subtotal y botón de reservar */}
+                <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <p className="text-2xl font-semibold text-black">Subtotal</p>
+                    <p className="text-2xl font-semibold text-black">
+                      ${products.reduce((total, product) => total + product.price * product.quantity, 0).toFixed(2)}
                     </p>
                   </div>
+                  <button
+                    type="button"
+                    className="w-full px-6 py-3 text-base font-medium rounded-lg bg-[#1C4C38] text-white text-center"
+                  >
+                    Ir a reservar
+                  </button>
                 </div>
               </div>
             </div>
