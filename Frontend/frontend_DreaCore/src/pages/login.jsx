@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import backgroundImage from "../assets/imagenlogin2.jpg";
+import backgroundImage from "../assets/fonditobonito.png";
 import dreamCoreLogo from "../assets/DreamCore.png";
 import eyeOpen from "../assets/eye-open.png"; // Imagen para mostrar contraseña
 import eyeClosed from "../assets/eye-closed.png"; // Imagen para ocultar contraseña

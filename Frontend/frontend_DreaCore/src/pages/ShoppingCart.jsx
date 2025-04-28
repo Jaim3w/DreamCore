@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import trashIcon from "../assets/trash(2).png";
 
 // Componente principal del carrito de compras
-function ShoppingCart() {
+function ShoppingCart({ onClose }) {
   // Estado local para los productos en el carrito
   const [products, setProducts] = useState([
     {
@@ -69,12 +69,8 @@ function ShoppingCart() {
                 <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                   {/* Botón para cerrar el carrito */}
                   <div className="flex items-start justify-start">
-                    <button
-                      onClick={() => onClose()} // Esta función debe ser pasada como prop desde el componente padre
-                      className="bg-transparent p-1 hover:opacity-75"
-                      aria-label="Close cart"
-                    >
-                      {/* Ícono de X */}
+                    <button onClick={() => onClose()} className="bg-transparent p-1 hover:opacity-75" aria-label="Close cart">
+                      {/* X */}
                       <svg 
                         xmlns="http://www.w3.org/2000/svg" 
                         className="h-6 w-6 text-[#1C4C38]" 

@@ -10,7 +10,7 @@ import logo from "../assets/logonav.png";
 import './Header.css';
 
 // Definimos el componente funcional 
-const Header = () => {
+const Header = ({ onOpenCart }) => {
   // Creamos un estado para saber si el usuario ha hecho scroll
   const [scrolled, setScrolled] = useState(false);
 
@@ -26,10 +26,8 @@ const Header = () => {
   }, []);
 
   return (
-     // Contenedor principal del encabezado
     <header className="header-container">
-
-         {/* Barra superior con información de contacto y redes sociales */}
+      {/* Barra superior con información de contacto y redes sociales */}
       <div className="top-bar">
         <div className="contact-info">
           <span>dreamcore@gmail.com</span>
@@ -51,7 +49,7 @@ const Header = () => {
             <FaWhatsapp className="icon" />
           </a>
           <span>| Eventos Boutique</span>
-          <FaShoppingCart className="icon" />
+          <FaShoppingCart className="icon" onClick={onOpenCart} style={{ cursor: 'pointer' }} />
           <FaUser className="icon" />
         </div>
       </div>

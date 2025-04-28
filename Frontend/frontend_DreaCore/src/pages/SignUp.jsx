@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "../firebase/firebaseConfig"; // Importa la configuración de Firebase
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // Métodos de autenticación
-import backgroundImage from "../assets/imagenlogin2.jpg";
+import backgroundImage from "../assets/fonditobonito.png";
 import dreamCoreLogo from "../assets/DreamCore.png";
 import eyeOpen from "../assets/eye-open.png";
 import eyeClosed from "../assets/eye-closed.png";
