@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router';
+import { useState } from 'react';
 import Home from './pages/Home';
 import About from './pages/About';
 import Terminos from './pages/Terminos';
@@ -11,12 +12,15 @@ import CheckNumber from './pages/CheckNumber';
 import NewPassword from './pages/NewPassword';
 import Contactanos from './pages/Contactanos';
 import SplashScreen from './pages/SplashScreen';
+import Login from './pages/login';
+import ShoppingCart from './pages/ShoppingCart';
+import SignUp from './pages/SignUp';
 
 function AppContent() {
   const location = useLocation();
 
   // Definir rutas sin Header/Footer en minúscula
-  const noHeaderFooterRoutes = ['/splash', '/recoverpassword', '/checknumber', '/newpassword'];
+  const noHeaderFooterRoutes = ['/splash', '/recoverpassword', '/checknumber', '/newpassword', '/login', '/signup'];
 
   // Normalizar la ruta actual (minúscula y sin slash al final)
   const currentPath = location.pathname.toLowerCase().replace(/\/$/, '');
@@ -39,6 +43,10 @@ function AppContent() {
           <Route path="/productos/:categoria" element={<Products />} />
           <Route path="/contactanos" element={<Contactanos />} />
           <Route path="/splash" element={<SplashScreen />} />
+          <Route path="/contactanos" element={<Contactanos />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+          
         </Routes>
       </main>
       {!hideHeaderFooter && <Footer />}
@@ -46,7 +54,10 @@ function AppContent() {
   );
 }
 
+
 function App() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   return (
     <Router>
       <AppContent />

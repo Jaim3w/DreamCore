@@ -1,16 +1,16 @@
-import React, {useState}from "react";
-import backgroundImage from "../../assets/imagenlogin2.jpg";
-import dreamCoreLogo from "../../assets/DreamCore.png";
-import eyeOpen from "../../assets/eye-open.png"; // Imagen para mostrar contraseña
-import eyeClosed from "../../assets/eye-closed.png"; // Imagen para ocultar contraseña
-
+import React, { useState } from "react";
+import backgroundImage from "../assets/fonditobonito.png";
+import dreamCoreLogo from "../assets/DreamCore.png";
+import eyeOpen from "../assets/eye-open.png"; // Imagen para mostrar contraseña
+import eyeClosed from "../assets/eye-closed.png"; // Imagen para ocultar contraseña
 
 function Login() {
-//Se creo un estado para el password y su visibilidad
-   const[showPassword, setShowPassword] = useState(false);
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div
       className="h-screen w-screen flex items-center justify-center bg-cover bg-center"
@@ -76,7 +76,7 @@ function Login() {
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute inset-y-0 right-3 flex items-center"
+                  className="absolute inset-y-0 right-3 flex items-center bg-transparent"
                 >
                   <img
                     className="h-6 w-6 object-contain opacity-75 border border-gray-300 rounded shadow-sm"
@@ -110,7 +110,7 @@ function Login() {
               >
                 Sign up
               </a>
-            </div>     
+            </div>
           </form>
         </div>
       </div>
