@@ -11,3 +11,4 @@ export const Input = ({ type = "text", placeholder = "", className = "", ...prop
     />
   );
 };
+//se hizo un cambio en el nombre de la carpeta de input a ui, para que sea mas claro el uso de los componentes, ya que no solo es un input, sino que es un componente de la interfaz de usuario.
