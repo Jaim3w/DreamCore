@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import trashIcon from "../assets/trash(2).png";
+import { useNavigate } from "react-router-dom"; // Importamos el hook para navegar
 
 // Componente principal del carrito de compras
 function ShoppingCart({ onClose }) {
@@ -51,7 +52,10 @@ function ShoppingCart({ onClose }) {
   const removeProduct = (id) => {
     setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
   };
+const navigate = useNavigate(); // Creamos la función navigate
 
+const buscarMasProductos = () => {
+  navigate("/productos");}; // Ruta para ir a buscar más productos  
   // Renderizado del componente
   return (
     // Fondo y contenedor principal del modal del carrito
@@ -151,7 +155,7 @@ function ShoppingCart({ onClose }) {
                     </div>
                     {/* Botón para buscar más productos */}
                     <div className="mt-6 flex justify-center">
-                      <button
+                      <button onClick={buscarMasProductos}
                         type="button"
                         className="w-[90%] px-6 py-3 text-base font-medium rounded-lg text-[#1C4C38] bg-white border-2 border-solid text-center"
                         style={{ borderColor: '#1C4C38' }}

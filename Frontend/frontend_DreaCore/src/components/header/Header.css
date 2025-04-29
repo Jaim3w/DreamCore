@@ -1,0 +1,135 @@
+/* Fuente Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.header-container {
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+}
+
+.top-bar {
+  background-color: #1D4635;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+}
+
+.contact-info, .social-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 15px 0;
+  flex-wrap: wrap;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.nav-bar a {
+  color: #000;
+  text-decoration: none;
+  font-size: 16px;
+  padding-bottom: 5px;
+  transition: border-bottom 0.2s;
+}
+
+.nav-bar a:hover {
+  border-bottom: 2px solid #1D4635;
+}
+
+.nav-bar.sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.logo-container {
+  width: 70px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  margin-top: -15px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  overflow: hidden;
+}
+
+.logo-container img {
+  width: 90%;
+  height: auto;
+  display: block;
+}
+
+.social-info a {
+  color: white;
+  text-decoration: none; 
+}
+
+.social-info a:hover {
+  color: #000000; 
+}
+
+.icon {
+  margin: 0 5px;
+  font-size: 1rem; 
+  vertical-align: middle;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-bar {
+    gap: 20px;
+    flex-direction: column;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .contact-info, .social-info {
+    justify-content: flex-start;
+    gap: 10px;
+  }  
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import olvidasteContra from "../assets/olvidasteContra.png";
-import BotonRecu from "../components/BotonRecu";
+import BotonRecu from "../components/recuContra/BotonRecu";
 import { useNavigate } from "react-router-dom"; // Importa correctamente useNavigate
 
 const RecoverPassword = () => {

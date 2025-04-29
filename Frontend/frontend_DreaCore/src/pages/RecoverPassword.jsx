@@ -2,8 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // Importamos el hook para navegar
 import { motion } from "framer-motion";
 import olvidasteContra from "../assets/olvidasteContra.png";
-import BotonRecu from "../components/BotonRecu";
-import BotonRecuW from "../components/BotonRecuW";
+import BotonRecu from "../components/recuContra/BotonRecu";
+import BotonRecuW from "../components/recuContra/BotonRecuW";
 
 const RecoverPassword = () => {
   const navigate = useNavigate(); // Creamos la función navigate

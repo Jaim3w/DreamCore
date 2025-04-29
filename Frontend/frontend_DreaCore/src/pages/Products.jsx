@@ -5,8 +5,7 @@ import { useParams, Link } from 'react-router';
 // Icono del carrito de compras
 import { FaShoppingCart } from 'react-icons/fa';
 // Estilos específicos del componente
-import '../components/Products.css';
-
+import "../components/styles/Products.css";
 // Objeto de ejemplo con productos de distintas categorías
 const productosDemo = {
   sillas: [

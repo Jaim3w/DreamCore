@@ -24,7 +24,7 @@ const PantallaCarga = () => {
     if (progress === 100) {
       // Cuando la barra llegue al 100%, navegar
       const timeout = setTimeout(() => {
-        navigate("/");
+        navigate("/login");
       }, 500); // Pequeña pausa para que se vea bonito
 
       return () => clearTimeout(timeout);

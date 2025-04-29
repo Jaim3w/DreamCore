@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 //Css de la página contáctanos
-import "../components/Contactanos.css";
+import "../components/styles/Contactanos.css";
 
 const Contactanos = () => {
     // Para poder acceder al contenedor del mapa

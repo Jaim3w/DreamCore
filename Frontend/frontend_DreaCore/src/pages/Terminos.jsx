@@ -1,7 +1,6 @@
 import React from "react";
 // Css de la página about porque use algunas cositas
-import "../components/About.css";
-
+import "../components/styles/About.css";
 const Terminos = () => {
   return (
 

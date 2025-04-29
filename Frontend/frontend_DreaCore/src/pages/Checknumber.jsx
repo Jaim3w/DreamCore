@@ -2,8 +2,8 @@ import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import olvidasteContra from "../assets/olvidasteContra.png";
 import { Navigate, useNavigate } from "react-router-dom"; // Importamos el hook para navegar
-import BotonRecu from "../components/BotonRecu";
-import InputDigito from "../components/InputDigito";
+import BotonRecu from "../components/recuContra/BotonRecu";
+import InputDigito from "../components/recuContra/InputDigito";
 
 const VerificarCodigo = () => {
   const navigate = useNavigate(); // Creamos la función navigate

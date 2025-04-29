@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importamos el hook para navegar
 import { auth } from "../firebase/firebaseConfig"; // Importa la configuración de Firebase
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"; // Métodos de autenticación
 import backgroundImage from "../assets/fonditobonito.png";
@@ -37,6 +38,20 @@ function SignUp() {
       console.log("Formulario enviado con los datos ingresados.");
       // Aquí puedes manejar el envío del formulario normalmente
     }
+  };
+
+  const navigate = useNavigate(); // Creamos la función navigate 
+  const inicioHome= () => {
+    navigate("/home"); // Ruta para ir al inico de la app
+  };
+
+  const irLogin = () => {
+navigate("/login"); // Ruta para ir al login una cuenta
+
+  };
+
+  const forgotPasword = () => {
+    navigate("/recoverpassword"); // Ruta para ir a recuperar contraseña
   };
 
   return (
@@ -187,7 +202,7 @@ function SignUp() {
               </button>
             </div>
             <div>
-              <button
+              <button onClick={inicioHome}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-[#1C4C38] px-3 py-1.5 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-[#14532D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C4C38]"
               >
@@ -195,7 +210,7 @@ function SignUp() {
               </button>
             </div>
             <div className="mt-2 text-right">
-              <a
+              <a onClick={forgotPasword}
                 href="#"
                 className="font-semibold text-[#1C4C38] hover:text-[#1C4C38]"
               >
@@ -204,7 +219,7 @@ function SignUp() {
             </div>
             <div className="text-center text-sm sm:text-base font-semibold text-gray-900">
               Ya tienes una cuenta?{" "}
-              <a
+              <a onClick={irLogin}
                 href="#"
                 className="text-[#1C4C38] hover:text-[#1C4C38]"
               >

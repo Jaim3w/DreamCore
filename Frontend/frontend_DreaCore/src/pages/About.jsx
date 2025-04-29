@@ -1,7 +1,6 @@
 import React from "react";
 // Css de la página acerca de
-import "../components/About.css";
-
+import "../components/styles/About.css";
 // Importo las imágenes desde la carpeta "assets"
 import img1 from "../assets/evento1.png";
 import img2 from "../assets/evento2.png";

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importamos el hook para navegar
 import backgroundImage from "../assets/fonditobonito.png";
 import dreamCoreLogo from "../assets/DreamCore.png";
 import eyeOpen from "../assets/eye-open.png"; // Imagen para mostrar contraseña
@@ -6,7 +7,19 @@ import eyeClosed from "../assets/eye-closed.png"; // Imagen para ocultar contras
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // Creamos la función navigate 
+  const inicioHome= () => {
+    navigate("/home"); // Ruta para ir al inico
+  };
 
+  const irsingup = () => {
+navigate("/signup"); // Ruta para ir a crear una cuenta
+
+  };
+
+  const forgotPasword = () => {
+    navigate("/recoverpassword"); // Ruta para ir a crear una recuperar contraseña
+  };
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -86,7 +99,7 @@ function Login() {
                 </button>
               </div>
               <div className="mt-2 text-right">
-                <a
+                <a onClick={forgotPasword}
                   href="#"
                   className="font-semibold text-[#1C4C38] hover:text-[#1C4C38]"
                 >
@@ -95,7 +108,7 @@ function Login() {
               </div>
             </div>
             <div>
-              <button
+              <button onClick={inicioHome}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-[#1C4C38] px-3 py-1.5 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-[#14532D] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C4C38]"
               >
@@ -104,7 +117,7 @@ function Login() {
             </div>
             <div className="text-center text-sm sm:text-base font-semibold text-gray-900">
               Don't have an account?{" "}
-              <a
+              <a onClick={irsingup}
                 href="#"
                 className="text-[#1C4C38] hover:text-[#1C4C38]"
               >
