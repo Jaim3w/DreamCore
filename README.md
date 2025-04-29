@@ -26,7 +26,6 @@ Este proyecto fue desarrollado utilizando el **Stack MERN**:
 - ⚙️ **Express.js** – Framework de backend para manejar rutas y lógica del servidor.
 - 🖥️ **React.js** – Librería para construir una interfaz de usuario interactiva y moderna.
 - 🟢 **Node.js** – Entorno de ejecución para el servidor backend.
-- 🔐 **OAuth 2.0 (Google Sign-In)** – Para autenticación segura y rápida con cuentas de Google.
 
 ---
 
