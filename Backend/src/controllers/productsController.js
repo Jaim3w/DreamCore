@@ -33,7 +33,7 @@ productsController.getproduct= async (req, res) => {
     .populate("idCategory", "categoryName")
     .populate("idBrand", "brandName");
     if (!review) {
-      return res.status(404).json({ message: "review not found" });
+      return res.status(404).json({ message: "Products not found" });
     }
     res.status(200).json(review);
   } catch (error) {
@@ -76,7 +76,7 @@ productsController.deleteProducts = async (req, res) => {
   try {
     const deleteProducts = await productsModel.findByIdAndDelete(req.params.id);
     if (!deleteProducts) {
-      return res.status(404).json({ message: "peroduct not found" });
+      return res.status(404).json({ message: "product not found" });
     }
     res.json({ message: "product deleted"});
   } catch (error) {

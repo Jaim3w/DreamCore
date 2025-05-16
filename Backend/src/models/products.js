@@ -46,12 +46,7 @@ const productsSchema = new Schema(
         require:true,
         
       },
-      productImage:[
-        {
-          url:{
-                type: String
-            }
-        }],
+      productImage: [String],
     },
         {
   timestamps: true,
