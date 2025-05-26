@@ -8,7 +8,12 @@ import "../components/styles/ManageProducts.css";
 
 const Products = () => {
   const navigate = useNavigate();
-  const { products, deleteProduct, loading } = useDataProducts();
+  const {
+    products,
+    deleteProduct,
+    searchQuery,
+    handleSearch,
+  } = useDataProducts();
 
   const handleGoToCreateProducts = () => {
     navigate("/CreateProducts");
@@ -29,6 +34,8 @@ const Products = () => {
             <input
               type="text"
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
               className="outline-none border-none bg-transparent"
             />
             <svg

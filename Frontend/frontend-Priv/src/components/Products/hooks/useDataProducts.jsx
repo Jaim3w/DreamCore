@@ -3,7 +3,9 @@ import toast from "react-hot-toast";
 
 const useDataProducts = () => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   //Obtener productos
   const getData = async () => {
@@ -13,6 +15,7 @@ const useDataProducts = () => {
       const data = await res.json();
       if (!res.ok) throw new Error("Error al obtener los productos");
       setProducts(data);
+      setFilteredProducts(data); 
     } catch (err) {
       console.error(err);
       toast.error("No se pudieron cargar los productos");
@@ -29,11 +32,26 @@ const useDataProducts = () => {
       });
       if (!res.ok) throw new Error("Error al eliminar el producto");
 
-      setProducts((prev) => prev.filter((p) => p._id !== id));
+      const updated = products.filter((p) => p._id !== id);
+      setProducts(updated);
+      setFilteredProducts(updated);
       toast.success("Producto eliminado correctamente");
     } catch (err) {
       console.error(err);
       toast.error("No se pudo eliminar el producto");
+    }
+  };
+
+  // Búsquedad por nombre
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === "") {
+      setFilteredProducts(products);
+    } else {
+      const filtered = products.filter((p) =>
+        p.productName.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredProducts(filtered);
     }
   };
 
@@ -42,10 +60,11 @@ const useDataProducts = () => {
   }, []);
 
   return {
-    products,
-    setProducts,
-    loading,
+    products: filteredProducts,
     deleteProduct,
+    loading,
+    searchQuery,
+    handleSearch,
   };
 };
 
