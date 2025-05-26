@@ -8,9 +8,6 @@ stock
 productImage
 */
 
-
-
-
 import { Schema, model} from "mongoose";
 
 const productsSchema = new Schema(

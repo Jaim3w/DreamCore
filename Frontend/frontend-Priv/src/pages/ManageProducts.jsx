@@ -1,42 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import useDataProducts from "../components/Products/hooks/useDataProducts";
+import ListProduct from "../components/Products/ListProduct";
+import BotonGenerico from "../components/BotonGenerico";
 import { useNavigate } from "react-router-dom";
-import Header from "../components/header/Header";
-import BotonGenerico from "../components/BotonGenerico.jsx";
-import BasuraSvg from "../assets/basura.svg";
-import EditarSvg from "../assets/editar.svg"; 
+import "../components/styles/ManageProducts.css";
 
-
-
-
-function Products() {
-
-  const navigate = useNavigate(); // Usamos el hook useNavigate
+const Products = () => {
+  const navigate = useNavigate();
+  const { products, deleteProduct, loading } = useDataProducts();
 
   const handleGoToCreateProducts = () => {
-    navigate("/CreateProducts"); // Navegamos a la página de login
+    navigate("/CreateProducts");
   };
-  const [products, setProducts] = useState([]);
- const GetData = async () => {
- const response = await fetch("http://localhost:4000/api/products");
- const data = await response.json();
- console.log(data);
- if (!response.ok) {
-    throw new Error("Error al obtener los productos");
-  }
-  setProducts(data);
-
-  
-  
- } 
-  useEffect(() => {
-    GetData();
-  }, []);
- 
 
   return (
     <div>
-      <Header />
-
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="flex items-center justify-between gap-8 p-9">
         <h2 className="font-bold text-2xl mb-1">Ingresa Productos:</h2>
         <div className="flex items-center gap-6">
@@ -44,7 +24,6 @@ function Products() {
             label="Agregar Producto"
             className="px-10 py-5 text-2xl rounded-xl font-bold shadow-lg"
             onClick={handleGoToCreateProducts}
-            
           />
           <div className="flex items-center border rounded px-2 py-1">
             <input
@@ -68,68 +47,9 @@ function Products() {
           </div>
         </div>
       </div>
-      <div className="overflow-x-auto mt-6">
-        <table className="min-w-full bg-white border border-gray-100">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 text-left">Imagen</th>
-              <th className="px-4 py-2 text-left">Nombre</th>
-              <th className="px-4 py-2 text-left">Descripción</th>
-              <th className="px-4 py-2 text-left">Precio</th>
-              <th className="px-4 py-2 text-left">Stock</th>
-              <th className="px-4 py-2 text-left">Categoría</th>
-              <th className="px-4 py-2 text-left">Marcas</th>
-              <th className="px-4 py-2 text-left">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="text-center py-4 text-gray-400">
-                  No hay productos disponibles.
-                </td>
-              </tr>
-            ) : (
-              products.map((product, index) => (
-                <tr key={product._id} className="border-t">
-                  <td className="px-4 py-2">
-                    
-                    <img
-                      src={product.productImage[0]}
-                      alt={product.productName}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                  </td>
-                  <td className="px-4 py-2">{product.productName}</td>
-                  <td className="px-4 py-2">{product.description}</td>
-                  <td className="px-4 py-2">${product.price}</td>
-                  <td className="px-4 py-2">Disponible({product.stock})</td>
-                  <td className="px-4 py-2">{product.idCategory.categoryName}</td>
-                  <td className="px-4 py-2">{product.idBrand.brandName}</td>
-                  <td className="px-4 py-2 flex gap-2">
-                    {/* Aquí puedes poner los iconos de editar/eliminar */}
-                    <button className="text-green-700 hover:text-green-900">
-                        <img src={BasuraSvg} 
-                      alt="Eliminar"
-                       className="w-7 h-7" />
-                    </button>
-                    <button className="text-green-700 hover:text-green-900">
-                      <img
-                        src={EditarSvg}
-                        alt="Editar"
-                        className="w-12 h-12"
-                      />
-                   
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      <ListProduct products={products} deleteProduct={deleteProduct} />
     </div>
   );
-}
+};
 
 export default Products;

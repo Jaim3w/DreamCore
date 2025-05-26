@@ -38,7 +38,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/primeuso" element={<PrimeUso />} />
-          <Route path="/products" element={<Products />} />
+          <Route path="/productos" element={<Products />} />
           <Route path="/createproducts" element={<CreateProducts />} />
         </Routes>
       </main>

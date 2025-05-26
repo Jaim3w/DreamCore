@@ -30,7 +30,6 @@ const Header = ({ onOpenCart }) => {
       {/* Barra superior con información de contacto y redes sociales */}
       <div className="top-bar">
         
-
         <div className="social-info">
           <FaSignOutAlt className="icon" onClick={onOpenCart} style={{ cursor: 'pointer' }} />
           <FaUser className="icon" />
@@ -40,7 +39,7 @@ const Header = ({ onOpenCart }) => {
       {/* Clase dinámica al hacer scroll */}
       {/* Barra de navegación que se vuelve "sticky" si se hace scroll */}
       <nav className={`nav-bar ${scrolled ? 'sticky' : ''}`}>
-        <a href="/home">Inicio</a>
+        <a href="/">Inicio</a>
         <a href="/about">Pedidos</a>
 
         {/* Logo centrado */}
@@ -48,7 +47,7 @@ const Header = ({ onOpenCart }) => {
           <img src={logo} alt="DreamCore Logo" />
         </a>
         <a href="/productos">Productos</a>
-        <a href="/contactanos">Ventas</a>
+        <a href="/categorias">Categorías</a>
       </nav>
     </header>
   );
