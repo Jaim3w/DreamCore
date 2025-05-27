@@ -16,10 +16,11 @@ import ordersRoutes from "./src/routes/orders.js"
 const app = express();    
 
 app.use(
-  cors({
-    origin: "localhost", // Dominio del cliente
-    credentials: true, // Permitir envío de cookies y credenciales
-  })
+    cors({
+        origin: "http://localhost:5173",
+            // Permitir envío de cookies y credenciales
+        credentials : true
+    })
 );
 
 // middleware para aceptar datos desde postman

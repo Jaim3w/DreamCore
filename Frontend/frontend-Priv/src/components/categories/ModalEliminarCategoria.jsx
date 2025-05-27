@@ -1,23 +1,8 @@
-import React, { useState } from "react";
-
-const ModalEliminarCategoria = ({ isOpen, onClose, onSubmit, categoria }) => {
-  const [nombre, setNombre] = useState(categoria?.nombre || "");
-  const [imagen, setImagen] = useState(null);
-
-  
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!nombre) return alert("El nombre es requerido");
-    onSubmit({ ...categoria, nombre, imagen });
-    onClose();
-  };
-
+const ModalEliminarCategoria = ({ isOpen, onClose, onConfirm, categoria }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div className="fixed inset-0  bg-opacity-60 flex items-center justify-center z-50">
       <div className="bg-[#2e7d5c] text-white p-6 rounded-2xl w-[90%] max-w-md relative">
         <button
           onClick={onClose}
@@ -25,26 +10,35 @@ const ModalEliminarCategoria = ({ isOpen, onClose, onSubmit, categoria }) => {
         >
           ✕
         </button>
-        <h2 className="text-xl font-bold mb-4 text-center">
-Eliminar Categoria        </h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Estilo similar al de subir imagen */}
-          <label className="bg-white text-black rounded-md px-3 py-2 text-sm">
-            <input
-              type="text"
-              placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              className="w-full bg-transparent outline-none"
-            />
-          </label>
+        <h2 className="text-xl font-bold mb-4 text-center">¿Eliminar categoría?</h2>
+        
+        {categoria?.imagen && (
+          <img
+            src={categoria.imagen}
+            alt="Imagen de la categoría"
+            className="w-full h-auto rounded-md mb-4"
+          />
+        )}
+        
+        <p className="mb-6">¿Estás seguro de eliminar "{categoria?.name}"?</p>
+        
+        <div className="flex justify-end gap-3">
           <button
-            type="submit"
-            className="bg-[#bd1616] hover:bg-[#104b38] text-white py-2 rounded-md text-sm"
+            onClick={onClose}
+            className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md"
           >
-            Eliminnar categoría
+            Cancelar
           </button>
-        </form>
+          <button
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
+            className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md"
+          >
+            Eliminar
+          </button>
+        </div>
       </div>
     </div>
   );

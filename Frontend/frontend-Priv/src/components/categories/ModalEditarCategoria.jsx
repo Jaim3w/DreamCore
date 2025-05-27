@@ -21,7 +21,7 @@ const ModalEditarCategoria = ({ isOpen, onClose, onSubmit, categoria }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-opacity-60 flex items-center justify-center z-50">
       <div className="bg-[#2e7d5c] text-white p-6 rounded-2xl w-[90%] max-w-md relative">
         <button
           onClick={onClose}
