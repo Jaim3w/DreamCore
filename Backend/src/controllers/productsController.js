@@ -1,15 +1,33 @@
 import productsModel from "../models/products.js";
-import Categories from "../models/Categories.js";
-import brandsController from "./brandsController.js";
+import { v2 as cloudinary } from "cloudinary";
+
+import { config } from "../config.js";
+
+cloudinary.config({
+  cloud_name: config.cloudinary.cloud_name,
+  api_key: config.cloudinary.cloudinary_api_key,
+  api_secret: config.cloudinary.cloudinary_api_secret,
+});
 
 const productsController = {};
-
 
 //Ingresar review
 
 productsController.createProducts = async (req, res) => {
-    const { idCategory, idBrand, productName, description,price,stock, productImage  } = req.body;
-    const newProducts = new productsModel({ idCategory, idBrand, productName, description,price,stock, productImage });
+    const { idCategory, idBrand, productName, description,price,stock, } = req.body;
+      let imageURL = "";
+
+       //Subir la imagen a Cloudinary
+  if (req.file) {
+    const result = await cloudinary.uploader.upload(
+      req.file.path, 
+      {
+      folder: "public",
+      allowed_formats: ["jpg", "png", "jpeg"],
+    });
+    imageURL = result.secure_url;
+  }
+    const newProducts = new productsModel({ idCategory, idBrand, productName, description,price,stock, productImage: imageURL });
     await newProducts.save();
     res.json({ message: "review saved" });
   };
@@ -41,11 +59,19 @@ productsController.getproduct= async (req, res) => {
   }
 };
 
-
-
 // ACTUALIZAR UN producto
 productsController.updateProducts= async (req, res) => {
-  const{ idCategory, idBrand, productName, description,price,stock, productImage  } = req.body;
+  const{ idCategory, idBrand, productName, description,price,stock,   } = req.body;
+  let imageURL = "";
+
+   //Subir la nueva imagen a Cloudinary
+  if (req.file) {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "public",
+      allowed_formats: ["jpg", "png", "jpeg"],
+    });
+    imageURL = result.secure_url;
+  }
 
   // Validación de campos requeridos
   if (!idCategory || !idBrand || !productName || !description||!price||!stock||!productImage ) {
@@ -55,7 +81,7 @@ productsController.updateProducts= async (req, res) => {
   try {
     const updateProducts = await productsModel.findByIdAndUpdate(
       req.params.id,
-      { idCategory, idBrand, productName, description,price,stock, productImage },
+      { idCategory, idBrand, productName, description,price,stock, productImage: imageURL },
       { new: true }
     )
     .populate("idCategory", "categoryName")
