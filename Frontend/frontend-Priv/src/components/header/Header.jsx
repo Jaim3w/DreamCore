@@ -47,7 +47,7 @@ const Header = ({ onOpenCart }) => {
           <img src={logo} alt="DreamCore Logo" />
         </a>
         <a href="/productos">Productos</a>
-        <a href="/categorias">Categorías</a>
+        <a href="/categories">Categorías</a>
       </nav>
     </header>
   );

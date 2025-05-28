@@ -1,17 +1,22 @@
 import express from "express";
 import categoriesController from "../controllers/categoriesController.js";
-// Router() nos ayuda a colocar los metodos
-// que tendra mi ruta
+import multer from "multer";
+
+// Crear el router
 const router = express.Router();
 
+// Configurar carpeta local temporal para subir imágenes
+const upload = multer({ dest: "public/" });
+
+// Rutas
 router
   .route("/")
   .get(categoriesController.getCategories)
-  .post(categoriesController.createCategories);
+  .post(upload.single("image"), categoriesController.createCategories);
 
 router
   .route("/:id")
-  .put(categoriesController.updateCategories)
+  .put(upload.single("image"), categoriesController.updateCategories)
   .delete(categoriesController.deleteCategories);
 
 export default router;
