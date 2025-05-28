@@ -6,7 +6,7 @@ import CreateProducts from './pages/CreateProducts';
 import PrimeUso from './pages/PrimeUso';
 import Dashboard from './pages/DashBoard';
 import Categories from './pages/Categories';
-import Pedidos from './pages/Pedidos'; // Asegúrate de que esta ruta sea correcta
+import Orders from './pages/Orders'; // Asegúrate de que esta ruta sea correcta
 
 // ----- Definimos un Footer sencillo aquí mismo -----
 const Footer = () => (
@@ -42,7 +42,7 @@ function AppContent() {
           <Route path="/primeuso" element={<PrimeUso />} />
           <Route path="/productos" element={<Products />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/pedidos" element={<Pedidos />} />
+          <Route path="/pedidos" element={<Orders />} />
           <Route path="/createproducts" element={<CreateProducts />} />
         </Routes>
       </main>

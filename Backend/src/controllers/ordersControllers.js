@@ -1,18 +1,90 @@
-// Metodos:(C R U D)
+import ordersModel from "../models/orders.js";
+import productModel from "../models/products.js"; // Asegúrate de importar el modelo de productos
 
 const ordersControllers = {};
-import ordersModel from "../models/orders.js";
 
-//select:
-ordersControllers.getOrders = async (req,res) =>{
- try{
-    const Orders = await ordersModel.find()
- .populate("products", "name PRICE")
- .populate("idClient", "name CLIENT");
- res.status(200).json(Orders);
-} catch (error) {
-  res.status(500).json({ message: "Error fetching orders", error: error.message });
-}
+// GET all orders (versión optimizada)
+ordersControllers.getOrders = async (req, res) => {
+  try {
+    // Primero obtenemos todas las órdenes sin populate
+    const orders = await ordersModel.find().populate('idClient', 'name');
+    
+    // Obtenemos todos los IDs de productos únicos
+   const productIds = [
+  ...new Set(
+    orders.flatMap(order => order.products.map(p => p.idproduct))
+  )
+];
+    
+    // Buscamos los nombres de los productos
+    const products = await productModel.find(
+      { _id: { $in: productIds } },
+      { productName: 1 }
+    );
+    
+    // Creamos un mapa de IDs a nombres
+    const productNameMap = products.reduce((map, product) => {
+      map[product._id.toString()] = product.productName;
+      return map;
+    }, {});
+    
+    // Construimos la respuesta final
+    const transformedOrders = orders.map(order => ({
+      ...order._doc,
+      products: order.products.map(product => ({
+        ...product._doc,
+        productName: product.idproduct ? 
+          (productNameMap[product.idproduct.toString()] || product.productName || 'Producto sin nombre') :
+          (product.productName || 'Producto sin nombre'),
+        idproduct: product.idproduct
+      }))
+    }));
+    
+    res.status(200).json(transformedOrders);
+  } catch (error) {
+    console.error('Error en getOrders:', error);
+    res.status(500).json({
+      message: "Error al obtener las órdenes",
+      error: error.message
+    });
+  }
+};
+// GET single order
+ordersControllers.getOrder = async (req, res) => {
+  try {
+    const order = await ordersModel.findById(req.params.id)
+      .populate({
+        path: 'products.idproduct',
+        select: 'productName -_id',
+        model: 'products' // Usamos el nombre del modelo como string
+      })
+      .populate('idClient', 'name CLIENT');
+
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    const orderObj = order.toObject();
+    const transformedOrder = {
+      ...orderObj,
+      products: orderObj.products.map(product => {
+        const productObj = product.toObject ? product.toObject() : product;
+        return {
+          ...productObj,
+          productName: productObj.idproduct?.productName || 'Nombre no disponible',
+          idproduct: productObj.idproduct?._id || productObj.idproduct
+        };
+      })
+    };
+
+    res.status(200).json(transformedOrder);
+  } catch (error) {
+    console.error("Error en getOrder:", error);
+    res.status(500).json({ 
+      message: "Error fetching the order", 
+      error: error.message 
+    });
+  }
 };
 
 //insert :
@@ -65,24 +137,4 @@ ordersControllers.updateOrders = async(req,res) =>{
     res.json({message:" Orders Updated"})
 
 };
-
-//Mostrar solo uno 
-
-ordersControllers.getOrder = async (req,res)=> {
-    try{
-        const Order = await ordersModel.findById(req.params.id)
-        .populate("idproduct", "name PRICE")
-        .populate("idClient", "name CLIENT");
-       if(!Order){
-        return res.status(404).json({ message: "Order not found" });
-       }
-       res.status(200).json(Order);   
-    }
-    catch(error)
-    {
-        res.status(500).json({ message: "Error fetching the order", error: error.message });
-    }
-    
-    };
-
-    export default ordersControllers;
+export default ordersControllers;
