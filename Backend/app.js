@@ -17,10 +17,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "localhost", // Dominio del cliente
-    credentials: true, // Permitir envío de cookies y credenciales
+    origin: "http://localhost:5173", 
+    credentials: true,
   })
 );
+
 
 // middleware para aceptar datos desde postman
 app.use(express.json());

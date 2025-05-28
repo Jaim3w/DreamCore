@@ -14,8 +14,8 @@ const ListProduct = ({ products, deleteProduct }) => {
             <th className="px-4 py-2 text-left">Precio</th>
             <th className="px-4 py-2 text-left">Stock</th>
             <th className="px-4 py-2 text-left">Categoría</th>
-            <th className="px-4 py-2 text-left">Marcas</th>
-            <th className="px-4 py-2 text-left">Acciones</th>
+            <th className="px-4 py-2 text-left">Marca</th>
+            <th className="px-4 py-2 text-left"></th>
           </tr>
         </thead>
         <tbody>
@@ -29,18 +29,26 @@ const ListProduct = ({ products, deleteProduct }) => {
             products.map((product) => (
               <tr key={product._id} className="border-t">
                 <td className="px-4 py-2">
-                  <img
-                    src={product.productImage[0]}
-                    alt={product.productName}
-                    className="w-16 h-16 object-cover rounded"
-                  />
+                  {product.productImage ? (
+                    <img
+                      src={product.productImage}
+                      alt={product.productName}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                  ) : (
+                    <span className="text-gray-400">Sin imagen</span>
+                  )}
                 </td>
                 <td className="px-4 py-2">{product.productName}</td>
                 <td className="px-4 py-2">{product.description}</td>
                 <td className="px-4 py-2">${product.price}</td>
-                <td className="px-4 py-2">Disponible({product.stock})</td>
-                <td className="px-4 py-2">{product.idCategory?.categoryName}</td>
-                <td className="px-4 py-2">{product.idBrand?.brandName}</td>
+                <td className="px-4 py-2">Disponible ({product.stock})</td>
+                <td className="px-4 py-2">
+                  {product.idCategory?.categoryName || "Sin categoría"}
+                </td>
+                <td className="px-4 py-2">
+                  {product.idBrand?.brandName || "Sin marca"}
+                </td>
                 <td className="px-4 py-2 flex gap-2">
                   <button
                     className="text-green-700 hover:text-green-900"
