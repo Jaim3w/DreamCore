@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 
 // Traemos la URL base del backend desde el archivo .env
-const API = import.meta.VITE_API_URL;
+const API = import.meta.env.VITE_API_URL;
+
+
 
 // Creamos el contexto que vamos a usar en toda la app
 const AuthContext = createContext();
@@ -84,21 +86,23 @@ export const AuthProvider = ({ children }) => {
     }
 
     // Verificamos si el servidor está vivo
-    const checkServer = async () => {
-      try {
-        await fetch(`${API}`, {
-          method: "HEAD",
-          credentials: "include", // por si necesita enviar cookies
-        });
-      } catch (error) {
-        // Si el servidor no responde, cerramos sesión automáticamente
-        console.log("Servidor no disponible, cerrando sesión", error.message);
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user");
-        setAuthCokie(null);
-        setUser(null);
-      }
-    };
+   const checkServer = async () => {
+  try {
+    const res = await fetch(`${API}/login/status`, {
+      method: "GET",
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Backend no responde correctamente");
+
+  } catch (error) {
+    console.log("Servidor no disponible, cerrando sesión", error.message);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    setAuthCokie(null);
+    setUser(null);
+  }
+};
 
     // Llamamos a la función para chequear el servidor
     checkServer();

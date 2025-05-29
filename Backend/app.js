@@ -19,7 +19,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*", // Dominio del cliente
+    origin: "http://localhost:5173", // Dominio del cliente
     credentials: true, // Permitir envío de cookies y credenciales
   })
 );
@@ -42,4 +42,7 @@ app.use("/api/logout",logoutRoutes);
 
 // Exporto la constante para poder usar express en otros
 // archivos
+// Verificación de estado para el cliente (usada en AuthContext)
+app.head("/api", (req, res) => res.sendStatus(200));
+
 export default app;

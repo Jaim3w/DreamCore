@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth"; // Nuestro custom hook que trae funciones del contexto de autenticación
-import backgroundImage from "../assets/fonditobonito.png"; // Fondo bonito :)
-import dreamCoreLogo from "../assets/DreamCore.png"; // Logo de la app
-import eyeOpen from "../assets/eye-open.png"; // Ícono de ojo abierto
+import useAuth from "../hooks/useAuth";
+import backgroundImage from "../assets/fonditobonito.png";
+import dreamCoreLogo from "../assets/DreamCore.png";
+import eyeOpen from "../assets/eye-open.png";
 import eyeClosed from "../assets/eye-closed.png"; // Ícono de ojo cerrado
 
 const Login = () => {
@@ -30,7 +30,7 @@ const Login = () => {
 
     if (result.success) {
       // Si todo salió bien, redireccionamos a /home
-      navigate("/home");
+      navigate("/");
     } else {
       // Si hubo un error, lo mostramos
       setError(result.message);
