@@ -11,46 +11,43 @@ productImage
 import { Schema, model} from "mongoose";
 
 const productsSchema = new Schema(
-{
-
-    idCategory:{
-        type: Schema.Types.ObjectId,
-        ref: "categories", 
-        required: [true, "El ID del catefories es obligatorio"],
-      },
-      idBrand:{
-        type: Schema.Types.ObjectId,
-        ref: "brands", 
-        required: [true, "El ID del brands es obligatorio"],
-      }, 
-      productName:{
-        type:String,
-        require:true,
-        maxHeight: 500,
-      },
-      description:{
-        type:String,
-        require:true,
-        minlength: 50,
-        
-      },
-      price:{
-      type:Number,
-      require:true,
-      },
-      stock:{
-        type: Number,
-        require:true,
-        
-      },
-      productImage: {
-        type: String
-      },
+  {
+    idCategory: {
+      type: Schema.Types.ObjectId,
+      ref: "categories", 
+      required: [true, "El ID del catefories es obligatorio"],
     },
-        {
-  timestamps: true,
-  strict: false,
-}
-
+    idBrand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands", 
+      required: [true, "El ID del brands es obligatorio"],
+    },
+    productName: {
+      type: String,
+      required: true,  // Corregido de 'require' a 'required'
+      maxLength: 500,  // Corregir 'maxHeight' a 'maxLength'
+    },
+    description: {
+      type: String,
+      required: true,  // Corregido de 'require' a 'required'
+      minlength: 50,  // Correcto
+    },
+    price: {
+      type: Number,
+      required: true,  // Corregido de 'require' a 'required'
+    },
+    stock: {
+      type: Number,
+      required: true,  // Corregido de 'require' a 'required'
+    },
+    productImage: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+    strict: false,
+  }
 );
+
 export default model("products", productsSchema);

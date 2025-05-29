@@ -7,7 +7,7 @@ const useDataProducts = () => {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  //Obtener productos
+  // Obtener productos
   const getData = async () => {
     try {
       setLoading(true);
@@ -15,7 +15,7 @@ const useDataProducts = () => {
       const data = await res.json();
       if (!res.ok) throw new Error("Error al obtener los productos");
       setProducts(data);
-      setFilteredProducts(data); 
+      setFilteredProducts(data);
     } catch (err) {
       console.error(err);
       toast.error("No se pudieron cargar los productos");
@@ -24,7 +24,35 @@ const useDataProducts = () => {
     }
   };
 
-  //Eliminar productos
+  // Agregar producto
+ const addProduct = async (formData) => {
+  try {
+    const response = await fetch("http://localhost:4000/api/products", {
+      method: "POST",
+      body: formData, // Aquí se pasa el FormData
+    });
+    const result = await response.json();
+    console.log(result); // Verifica que la respuesta sea la esperada
+  } catch (error) {
+    console.error("Error al agregar producto:", error);
+  }
+};
+
+  // Actualizar producto
+const updateProduct = async (formData, productId) => {
+  try {
+    const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+      method: "PUT",
+      body: formData, // Aquí se pasa el FormData
+    });
+    const result = await response.json();
+    console.log(result); // Verifica que la respuesta sea la esperada
+  } catch (error) {
+    console.error("Error al actualizar producto:", error);
+  }
+};
+
+  // Eliminar producto
   const deleteProduct = async (id) => {
     try {
       const res = await fetch(`http://localhost:4000/api/products/${id}`, {
@@ -42,7 +70,7 @@ const useDataProducts = () => {
     }
   };
 
-  // Búsquedad por nombre
+  // Buscar productos (con debounce)
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (query.trim() === "") {
@@ -65,6 +93,8 @@ const useDataProducts = () => {
     loading,
     searchQuery,
     handleSearch,
+    addProduct,
+    updateProduct,
   };
 };
 

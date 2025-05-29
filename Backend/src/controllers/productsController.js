@@ -11,26 +11,45 @@ cloudinary.config({
 
 const productsController = {};
 
-//Ingresar review
-
 productsController.createProducts = async (req, res) => {
-    const { idCategory, idBrand, productName, description,price,stock, } = req.body;
-      let imageURL = "";
+  console.log("Datos recibidos en el backend:", req.body);
 
-       //Subir la imagen a Cloudinary
+  const { idCategory, idBrand, productName, description, price, stock } = req.body;
+
+  if (!idCategory || !idBrand || !productName || !description || !price || !stock) {
+    return res.status(400).json({
+      error: "Todos los campos son obligatorios",
+    });
+  }
+
+  // Subir la imagen a Cloudinary
+  let imageURL = "";
   if (req.file) {
-    const result = await cloudinary.uploader.upload(
-      req.file.path, 
-      {
+    const result = await cloudinary.uploader.upload(req.file.path, {
       folder: "public",
       allowed_formats: ["jpg", "png", "jpeg"],
     });
     imageURL = result.secure_url;
   }
-    const newProducts = new productsModel({ idCategory, idBrand, productName, description,price,stock, productImage: imageURL });
-    await newProducts.save();
-    res.json({ message: "review saved" });
-  };
+
+  // Crear el nuevo producto
+  const newProduct = new productsModel({
+    idCategory,
+    idBrand,
+    productName,
+    description,
+    price,
+    stock,
+    productImage: imageURL,
+  });
+
+  try {
+    await newProduct.save();
+    res.json(newProduct);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // OBTENER TODOS Las producto
 productsController.getProducts = async (req, res) => {

@@ -2,8 +2,8 @@ import React from "react";
 import BasuraSvg from "../../assets/basura.svg";
 import EditarSvg from "../../assets/editar.svg";
 
-const ListProduct = ({ products, deleteProduct }) => {
-  return (
+const ListProduct = ({ products, deleteProduct, onEdit }) => {
+ return (
     <div className="overflow-x-auto mt-6">
       <table className="min-w-full bg-white border border-gray-100">
         <thead>
@@ -56,7 +56,10 @@ const ListProduct = ({ products, deleteProduct }) => {
                   >
                     <img src={BasuraSvg} alt="Eliminar" className="w-7 h-7" />
                   </button>
-                  <button className="text-green-700 hover:text-green-900">
+                  <button
+                    className="text-green-700 hover:text-green-900"
+                    onClick={() => onEdit(product)}
+                  >
                     <img src={EditarSvg} alt="Editar" className="w-12 h-12" />
                   </button>
                 </td>

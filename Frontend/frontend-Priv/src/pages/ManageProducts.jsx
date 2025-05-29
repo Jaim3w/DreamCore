@@ -1,23 +1,64 @@
-import React from "react";
-import { Toaster } from "react-hot-toast";
+import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import useDataProducts from "../components/Products/hooks/useDataProducts";
 import ListProduct from "../components/Products/ListProduct";
 import BotonGenerico from "../components/BotonGenerico";
-import { useNavigate } from "react-router-dom";
+import ProductModal from "../components/Products/ProductModal";
 import "../components/styles/ManageProducts.css";
 
 const Products = () => {
-  const navigate = useNavigate();
   const {
     products,
     deleteProduct,
+    addProduct,
+    updateProduct,
     searchQuery,
     handleSearch,
   } = useDataProducts();
 
-  const handleGoToCreateProducts = () => {
-    navigate("/CreateProducts");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleOpenModal = (product = null) => {
+  setSelectedProduct(product);
+  setIsModalOpen(true);
+};
+
+const handleCloseModal = () => {
+  setIsModalOpen(false);
+  setSelectedProduct(null);
+};
+
+const handleSubmitProduct = async (productData) => {
+  const formattedData = {
+    ...productData,
+    price: parseFloat(productData.price),
+    stock: parseInt(productData.stock),
   };
+
+  const formData = new FormData();
+  formData.append("productName", formattedData.productName);
+  formData.append("description", formattedData.description);
+  formData.append("price", formattedData.price);
+  formData.append("stock", formattedData.stock);
+  formData.append("idCategory", formattedData.idCategory);
+  formData.append("idBrand", formattedData.idBrand);
+  formData.append("productImage", formattedData.image);
+
+  try {
+    if (selectedProduct) {
+      await updateProduct(formData, selectedProduct._id);
+      toast.success("Producto actualizado correctamente");
+    } else {
+      await addProduct(formData);
+      toast.success("Producto registrado correctamente");
+    }
+    setSelectedProduct(null);
+    reset();
+  } catch (error) {
+    toast.error("Hubo un error al guardar el producto");
+  }
+};
 
   return (
     <div>
@@ -27,13 +68,13 @@ const Products = () => {
         <div className="flex items-center gap-6">
           <BotonGenerico
             label="Agregar Producto"
-            className="px-10 py-5 text-2xl rounded-xl font-bold shadow-lg"
-            onClick={handleGoToCreateProducts}
+            onClick={() => handleOpenModal(null)}
+            className="..."
           />
           <div className="flex items-center border rounded px-2 py-1">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="Buscar..."
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               className="outline-none border-none bg-transparent"
@@ -54,7 +95,19 @@ const Products = () => {
           </div>
         </div>
       </div>
-      <ListProduct products={products} deleteProduct={deleteProduct} />
+
+      <ListProduct
+        products={products}
+        deleteProduct={deleteProduct}
+        onEdit={handleOpenModal}
+      />
+
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitProduct}
+        initialData={selectedProduct}
+      />
     </div>
   );
 };
