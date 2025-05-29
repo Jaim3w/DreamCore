@@ -49,7 +49,6 @@ try {
     setUser(null);
   };
 
-  // En useEffect
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     const savedUser = localStorage.getItem("user");
