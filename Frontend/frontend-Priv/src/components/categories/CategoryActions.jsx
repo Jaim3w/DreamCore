@@ -1,6 +1,8 @@
 import lapicito from "../../assets/editar.svg";
 import basura from "../../assets/Basura.svg";
 
+//acciones de editar y eliminar para las categorías
+
 const CategoryActions = ({ onEdit, onDelete, category }) => {
   return (
     <div className="flex gap-3">

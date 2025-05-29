@@ -1,6 +1,8 @@
 // src/components/orders/OrderActions.jsx
 import React from 'react';
 
+
+// Componente que muestra el botón de acción para eliminar una orden
 const OrderActions = ({ onDelete }) => {
   return (
     <button

@@ -40,7 +40,7 @@ const Header = ({ onOpenCart }) => {
       {/* Barra de navegación que se vuelve "sticky" si se hace scroll */}
       <nav className={`nav-bar ${scrolled ? 'sticky' : ''}`}>
         <a href="/">Inicio</a>
-        <a href="/about">Pedidos</a>
+        <a href="/pedidos">Pedidos</a>
 
         {/* Logo centrado */}
         <a href="/" className="logo-container">

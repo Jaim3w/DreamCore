@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ModalEditarCategoria = ({ isOpen, onClose, onSubmit, categoria }) => {
-  const [nombre, setNombre] = useState(categoria?.nombre || "");
-  const [imagen, setImagen] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImagen(file);
+  useEffect(() => {
+    if (categoria) {
+      setValue("nombre", categoria.nombre || "");
+      reset({ nombre: categoria.nombre });
     }
-  };
+  }, [categoria, setValue, reset]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!nombre) return alert("El nombre es requerido");
-    onSubmit({ ...categoria, nombre, imagen });
+  const onFormSubmit = (data) => {
+    const datosActualizados = {
+      _id: categoria._id,
+      nombre: data.nombre,
+      imagen: data.imagen?.[0] || null, // File o null
+    };
+
+    onSubmit(datosActualizados);
+    toast.success("¡Categoría actualizada correctamente!");
     onClose();
+    reset();
   };
 
   if (!isOpen) return null;
@@ -29,47 +42,51 @@ const ModalEditarCategoria = ({ isOpen, onClose, onSubmit, categoria }) => {
         >
           ✕
         </button>
+
         <h2 className="text-xl font-bold mb-4 text-center">
           Editar categoría
         </h2>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Estilo similar al de subir imagen */}
+
+        <form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col gap-4">
+          {/* Campo nombre */}
           <label className="bg-white text-black rounded-md px-3 py-2 text-sm">
             <input
               type="text"
               placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
               className="w-full bg-transparent outline-none"
+              {...register("nombre", {
+                required: "El nombre es obligatorio",
+              })}
             />
           </label>
+          {errors.nombre && (
+            <span className="text-red-300 text-sm -mt-2">
+              {errors.nombre.message}
+            </span>
+          )}
 
-          {/* Imagen actual o nueva */}
+          {/* Imagen previa */}
           <div className="flex items-center gap-3">
-            {imagen ? (
-              <img
-                src={URL.createObjectURL(imagen)}
-                alt="Nueva"
-                className="w-16 h-16 object-cover rounded-md"
-              />
-            ) : categoria?.imagen && (
+            {categoria?.imagen && (
               <img
                 src={categoria.imagen}
                 alt="Actual"
                 className="w-16 h-16 object-cover rounded-md"
               />
             )}
+
             <label className="bg-white text-black rounded-md px-3 py-2 text-sm cursor-pointer">
               Cambiar imagen
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
+                {...register("imagen")}
                 className="hidden"
               />
             </label>
           </div>
 
+          {/* Botón submit */}
           <button
             type="submit"
             className="bg-[#145f44] hover:bg-[#104b38] text-white py-2 rounded-md text-sm"

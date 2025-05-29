@@ -6,9 +6,11 @@ import CreateProducts from './pages/CreateProducts';
 import PrimeUso from './pages/PrimeUso';
 import Dashboard from './pages/DashBoard';
 import Categories from './pages/Categories';
-import Orders from './pages/Orders'; // Asegúrate de que esta ruta sea correcta
+import Orders from './pages/Orders';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-// ----- Definimos un Footer sencillo aquí mismo -----
+// Footer
 const Footer = () => (
   <footer className="bg-gray-100 text-center py-4 mt-8">
     <p className="text-sm text-gray-600">© 2025 DreamCore. Todos los derechos reservados.</p>
@@ -48,6 +50,8 @@ function AppContent() {
       </main>
 
       {!hideHeaderFooter && <Footer />}
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
