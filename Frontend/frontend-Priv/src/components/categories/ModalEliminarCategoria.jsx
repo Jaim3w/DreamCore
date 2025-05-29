@@ -1,31 +1,43 @@
-const ModalEliminarCategoria = ({ isOpen, onClose, onConfirm, categoria }) => {
+// Modal para confirmar la eliminación de una categoría
+const ModalEliminarCategoria = ({ isOpen, onClose, onConfirm, category }) => {
+  // Si el modal no está abierto, no renderiza nada
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0  bg-opacity-60 flex items-center justify-center z-50">
-      <div className="bg-[#2e7d5c] text-white p-6 rounded-2xl w-[90%] max-w-md relative">
+    // Fondo oscuro y centrado
+    <div className="fixed inset-0  bg-opacity-40 flex items-center justify-center z-50">
+      {/* Contenedor principal del modal */}
+      <div className="bg-[#1b4d3e] text-white p-8 rounded-2xl shadow-2xl w-[90%] max-w-md relative flex flex-col items-center">
+        {/* Botón para cerrar el modal */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-white font-bold text-xl"
+          className="absolute top-3 right-4 text-white text-2xl font-bold hover:text-red-400 transition"
+          title="Cerrar"
         >
           ✕
         </button>
+        {/* Título del modal */}
         <h2 className="text-xl font-bold mb-4 text-center">¿Eliminar categoría?</h2>
         
-        {categoria?.imagen && (
+        {/* Imagen de la categoría si existe */}
+        {category?.image && (
           <img
-            src={categoria.imagen}
-            alt="Imagen de la categoría"
-            className="w-full h-auto rounded-md mb-4"
+            src={category.image}
+            alt={`Imagen de la categoría ${category?.categoryName || ''}`}
+            className="w-32 h-32 object-contain rounded-md mb-4"
           />
         )}
         
-        <p className="mb-6">¿Estás seguro de eliminar "{categoria?.name}"?</p>
+        {/* Mensaje de confirmación mostrando el nombre de la categoría */}
+        <p className="mb-6 text-center">
+          ¿Estás seguro de eliminar la categoría <span className="font-semibold">"{category?.categoryName || 'Sin nombre'}"</span>?
+        </p>
         
-        <div className="flex justify-end gap-3">
+        {/* Botones de acción */}
+        <div className="flex gap-4 mt-2">
           <button
             onClick={onClose}
-            className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md"
+            className="bg-gray-200 hover:bg-gray-300 text-[#1b4d3e] font-semibold px-6 py-2 rounded-full transition"
           >
             Cancelar
           </button>
@@ -34,8 +46,13 @@ const ModalEliminarCategoria = ({ isOpen, onClose, onConfirm, categoria }) => {
               onConfirm();
               onClose();
             }}
-            className="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md"
+            className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-full transition flex items-center gap-2"
           >
+            {/* Ícono de eliminar */}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="12" cy="12" r="11" fill="#fff" opacity="0.08" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
             Eliminar
           </button>
         </div>

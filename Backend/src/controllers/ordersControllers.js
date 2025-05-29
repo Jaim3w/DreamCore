@@ -6,40 +6,22 @@ const ordersControllers = {};
 // GET all orders (versión optimizada)
 ordersControllers.getOrders = async (req, res) => {
   try {
-    // Primero obtenemos todas las órdenes sin populate
-    const orders = await ordersModel.find().populate('idClient', 'name');
-    
-    // Obtenemos todos los IDs de productos únicos
-   const productIds = [
-  ...new Set(
-    orders.flatMap(order => order.products.map(p => p.idproduct))
-  )
-];
-    
-    // Buscamos los nombres de los productos
-    const products = await productModel.find(
-      { _id: { $in: productIds } },
-      { productName: 1 }
-    );
-    
-    // Creamos un mapa de IDs a nombres
-    const productNameMap = products.reduce((map, product) => {
-      map[product._id.toString()] = product.productName;
-      return map;
-    }, {});
-    
-    // Construimos la respuesta final
-    const transformedOrders = orders.map(order => ({
-      ...order._doc,
-      products: order.products.map(product => ({
-        ...product._doc,
-        productName: product.idproduct ? 
-          (productNameMap[product.idproduct.toString()] || product.productName || 'Producto sin nombre') :
-          (product.productName || 'Producto sin nombre'),
-        idproduct: product.idproduct
-      }))
-    }));
-    
+    const orders = await ordersModel.find()
+      .populate('idClient', 'name') // Solo nombre del cliente
+      .populate('products.idProduct', 'productName'); // Solo nombre del producto
+
+    // Transformamos la respuesta para incluir productName directo
+    const transformedOrders = orders.map(order => {
+      const orderObj = order.toObject();
+      return {
+        ...orderObj,
+        products: orderObj.products.map(product => ({
+          ...product,
+          productName: product.idProduct?.productName || 'Producto sin nombre'
+        }))
+      };
+    });
+
     res.status(200).json(transformedOrders);
   } catch (error) {
     console.error('Error en getOrders:', error);
