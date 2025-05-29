@@ -7,8 +7,10 @@ import brandsRoutes from "./src/routes/brands.js";
 import salesRoutes from "./src/routes/sales.js";
 import clientsRoutes from "./src/routes/Clients.js";
 import reviewsRoutes from "./src/routes/Reviews.js";
-import productsRoutes from "./src/routes/Products.js"
-import ordersRoutes from "./src/routes/orders.js"
+import productsRoutes from "./src/routes/Products.js";
+import ordersRoutes from "./src/routes/orders.js";
+import loginRoutes from "./src/routes/login.js";
+import logoutRoutes from "./src/routes/logout.js";
 
 
 // Creo una constante que es igual a la libreria que
@@ -32,7 +34,10 @@ app.use("/api/sales", salesRoutes);
 app.use("/api/clients", clientsRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/products", productsRoutes);
-app.use ("/api/orders", ordersRoutes)
+app.use ("/api/orders", ordersRoutes);
+app.use("/api/login",loginRoutes);
+app.use("/api/logout",logoutRoutes);
+
 
 
 // Exporto la constante para poder usar express en otros
