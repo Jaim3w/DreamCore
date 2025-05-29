@@ -8,6 +8,7 @@ import logo from "../../assets/logonav.png";
 
 // Importación del css del header
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 // Definimos el componente funcional 
 const Header = ({ onOpenCart }) => {
@@ -39,15 +40,15 @@ const Header = ({ onOpenCart }) => {
       {/* Clase dinámica al hacer scroll */}
       {/* Barra de navegación que se vuelve "sticky" si se hace scroll */}
       <nav className={`nav-bar ${scrolled ? 'sticky' : ''}`}>
-        <a href="/dashboard">Inicio</a>
-        <a href="/pedidos">Pedidos</a>
+        <Link to="/dashboard">Inicio </Link>
+        <Link to="/pedidos">Pedidos</Link>
 
         {/* Logo centrado */}
-        <a href="/" className="logo-container">
+        <Link to="/" className="logo-container">
           <img src={logo} alt="DreamCore Logo" />
-        </a>
-        <a href="/productos">Productos</a>
-        <a href="/categories">Categorías</a>
+        </Link>
+        <Link to="/productos">Productos</Link>
+        <Link to="/categories">Categorías</Link>
       </nav>
     </header>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import { useAuth } from "../hooks/useAuth"; // Ahora importamos el hook
 import backgroundImage from "../assets/fonditobonito.png";
 import dreamCoreLogo from "../assets/DreamCore.png";
 import eyeOpen from "../assets/eye-open.png";
@@ -16,7 +16,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate(); // Hook para redireccionar
-  const { Login } = useAuth(); // Traemos la función Login desde el contexto
+  const { Login } = useAuth(); // Usamos el hook 'useAuth' para obtener la función Login
 
   // Alterna la visibilidad de la contraseña
   const togglePasswordVisibility = () => {
@@ -38,7 +38,6 @@ const Login = () => {
   };
 
   return (
-    // Contenedor general con fondo
     <div
       className="h-screen w-screen flex items-center justify-center bg-cover bg-center"
       style={{
@@ -47,10 +46,7 @@ const Login = () => {
         backgroundSize: "cover",
       }}
     >
-      {/* Tarjeta semi-transparente para el formulario */}
       <div className="bg-white/70 backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-8 sm:max-w-md w-full max-w-xs">
-        
-        {/* Logo y títulos */}
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-4">
           <img className="mx-auto h-40 w-auto" src={dreamCoreLogo} alt="Logo" />
           <h1 className="text-center text-2xl sm:text-3xl font-bold tracking-tight text-[#1C4C38]">
@@ -61,10 +57,8 @@ const Login = () => {
           </h2>
         </div>
 
-        {/* Formulario */}
         <div className="mt-8 sm:mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* Campo de email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-900">
                 Email
@@ -79,19 +73,18 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)} // Guardamos lo que el usuario escribe
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900  outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
                 />
               </div>
             </div>
 
-            {/* Campo de contraseña con botón para mostrar/ocultar */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-900">
                 Password
               </label>
               <div className="mt-2 relative">
                 <input
-                  type={showPassword ? "text" : "password"} // Según el estado mostramos texto o contraseña
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   name="password"
                   autoComplete="current-password"
@@ -99,9 +92,8 @@ const Login = () => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900  outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
                 />
-                {/* Botón para cambiar visibilidad de contraseña */}
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -114,8 +106,6 @@ const Login = () => {
                   />
                 </button>
               </div>
-
-              {/* Enlace para recuperar contraseña */}
               <div className="mt-2 text-right">
                 <a
                   onClick={() => navigate("/recoverpassword")}
@@ -127,20 +117,17 @@ const Login = () => {
               </div>
             </div>
 
-            {/* Mostrar error si lo hay */}
             {error && <p className="text-sm text-red-600">{error}</p>}
 
-            {/* Botón para iniciar sesión */}
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-[#1C4C38] px-3 py-1.5 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-[#14532D]  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C4C38]"
+                className="flex w-full justify-center rounded-md bg-[#1C4C38] px-3 py-1.5 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-[#14532D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C4C38]"
               >
                 Sign in
               </button>
             </div>
 
-            {/* Enlace para registrarse si no tiene cuenta */}
             <div className="text-center text-sm sm:text-base font-semibold text-gray-900">
               Don't have an account?{" "}
               <a

@@ -33,6 +33,7 @@ const useDataProducts = () => {
     });
     const result = await response.json();
     console.log(result); // Verifica que la respuesta sea la esperada
+    getData()
   } catch (error) {
     console.error("Error al agregar producto:", error);
   }

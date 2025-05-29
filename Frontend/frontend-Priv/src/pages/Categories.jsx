@@ -4,6 +4,7 @@ import ModalAgregarCategoria from "../components/categories/ModalAgregarCategori
 import ModalEditarCategoria from "../components/categories/ModalEditarCategoria";
 import ModalEliminarCategoria from "../components/categories/ModalEliminarCategoria";
 import CategoryList from "../components/categories/CategoryList";
+import BotonGenerico from '../components/BotonGenerico';
 
 // El componente Categories maneja la lógica de las categorías, incluyendo agregar, editar y eliminar categorías.
 const Categories = () => {
@@ -40,6 +41,7 @@ const Categories = () => {
       {/* Encabezado y botón para agregar categoría */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-bold text-lg">Ingresa Categorías:</h2>
+        <h2 className="font-bold text-xl sm:text-2xl">Ingresa Productos:</h2>
         <button
           className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-700"
           onClick={() => setIsAddModalOpen(true)}
