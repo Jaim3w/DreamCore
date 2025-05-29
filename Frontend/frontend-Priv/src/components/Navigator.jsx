@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import Header from "../components/header/Header";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import { PrivateRoute } from "../components/privateRoute";
 
 import Login from "../pages/Login";
