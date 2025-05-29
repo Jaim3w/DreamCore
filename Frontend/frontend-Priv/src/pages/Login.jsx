@@ -30,7 +30,7 @@ const Login = () => {
 
     if (result.success) {
       // Si todo salió bien, redireccionamos a /home
-      navigate("/");
+      navigate("/dashboard");
     } else {
       // Si hubo un error, lo mostramos
       setError(result.message);

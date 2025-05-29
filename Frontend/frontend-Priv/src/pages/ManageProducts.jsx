@@ -20,16 +20,16 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleOpenModal = (product = null) => {
-  setSelectedProduct(product);
-  setIsModalOpen(true);
-};
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
 
-const handleCloseModal = () => {
-  setIsModalOpen(false);
-  setSelectedProduct(null);
-};
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
 
-const handleSubmitProduct = async (productData) => {
+ const handleSubmitProduct = async (productData) => {
   const formattedData = {
     ...productData,
     price: parseFloat(productData.price),
@@ -45,39 +45,54 @@ const handleSubmitProduct = async (productData) => {
   formData.append("idBrand", formattedData.idBrand);
   formData.append("productImage", formattedData.image);
 
+  const toastId = toast.loading(
+    selectedProduct ? "Actualizando producto..." : "Registrando producto..."
+  );
+
   try {
     if (selectedProduct) {
       await updateProduct(formData, selectedProduct._id);
-      toast.success("Producto actualizado correctamente");
+      toast.success("Producto actualizado correctamente", { id: toastId });
     } else {
       await addProduct(formData);
-      toast.success("Producto registrado correctamente");
+      toast.success("Producto registrado correctamente", { id: toastId });
     }
+
     setSelectedProduct(null);
-    reset();
+    handleCloseModal();
+
+    // 🔁 DEVOLVEMOS un objeto indicando éxito
+    return { success: true };
   } catch (error) {
-    toast.error("Hubo un error al guardar el producto");
+    toast.error("Hubo un error al guardar el producto", { id: toastId });
+
+    // 🔁 DEVOLVEMOS un objeto indicando fracaso
+    return { success: false, message: error.message };
   }
 };
 
   return (
-    <div>
+    <div className="p-4 sm:p-6 md:p-9">
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="flex items-center justify-between gap-8 p-9">
-        <h2 className="font-bold text-2xl mb-1">Ingresa Productos:</h2>
-        <div className="flex items-center gap-6">
+
+      {/* Header de productos con búsqueda y botón */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8 mb-6">
+        <h2 className="font-bold text-xl sm:text-2xl">Ingresa Productos:</h2>
+
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full md:w-auto">
           <BotonGenerico
             label="Agregar Producto"
             onClick={() => handleOpenModal(null)}
-            className="..."
+            className="w-full sm:w-auto"
           />
-          <div className="flex items-center border rounded px-2 py-1">
+
+          <div className="flex items-center border rounded px-2 py-1 w-full sm:w-auto">
             <input
               type="text"
               placeholder="Buscar..."
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
-              className="outline-none border-none bg-transparent"
+              className="outline-none border-none bg-transparent w-full sm:w-48"
             />
             <svg
               className="w-5 h-5 text-gray-500"
@@ -96,12 +111,14 @@ const handleSubmitProduct = async (productData) => {
         </div>
       </div>
 
+      {/* Lista de productos */}
       <ListProduct
         products={products}
         deleteProduct={deleteProduct}
         onEdit={handleOpenModal}
       />
 
+      {/* Modal para agregar/editar productos */}
       <ProductModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}

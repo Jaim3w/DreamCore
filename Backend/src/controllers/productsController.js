@@ -80,7 +80,7 @@ productsController.getproduct= async (req, res) => {
 
 // ACTUALIZAR UN producto
 productsController.updateProducts= async (req, res) => {
-  const{ idCategory, idBrand, productName, description,price,stock,   } = req.body;
+  const{ idCategory, idBrand, productName, description,price,stock, productImage   } = req.body;
   let imageURL = "";
 
    //Subir la nueva imagen a Cloudinary
@@ -110,7 +110,7 @@ productsController.updateProducts= async (req, res) => {
       return res.status(404).json({ message: "reiew not found" });
     }
 
-    res.json({ message: "review updated"});
+    res.json(updateProducts);
   } catch (error) {
     res.status(500).json({ message: "Error", error: error.message });
   }

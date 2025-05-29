@@ -10,7 +10,8 @@ const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) =
     setValue,
     clearErrors,
     formState: { errors },
-    reset
+    reset,
+    control
   } = useForm();
 
   const [brands, setBrands] = useState([]);
@@ -153,14 +154,29 @@ const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) =
             <div className="col-span-2 border-2 border-dashed border-gray-300 rounded-xl p-6 text-center text-gray-500 cursor-pointer hover:border-gray-400 transition">
               <label htmlFor="image" className="block cursor-pointer">
                 Haz clic para seleccionar una imagen
-                <input
-                  type="file"
-                  id="image"
-                  ref={fileInputRef}
-                  {...register("image", { required: "Por favor selecciona una imagen" })}
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
+              <Controller
+                name="image"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <input
+                      type="file"
+                      id="image"
+                      ref={fileInputRef}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          setPreviewImage(URL.createObjectURL(file));
+                          field.onChange(file);
+                          clearErrors("image");
+                        }
+                      }}
+                      className="hidden"
+                    />
+                    {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+                  </>
+                )}
+              />
               </label>
 
               {previewImage && (
@@ -204,4 +220,4 @@ const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) =
   );
 };
 
-export default ModalCreateProduct;  
+export default ModalCreateProduct;
