@@ -1,9 +1,9 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../context/context";
+import { AuthContext } from "../context/AuthContext";
 
 
 export const PrivateRoute = () => {
-    const { authCokie } = useAuth();
+    const { authCokie } = AuthContext();
     return authCokie ? <Outlet /> : <Navigate to="/login" />
 }

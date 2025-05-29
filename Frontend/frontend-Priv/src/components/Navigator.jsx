@@ -8,19 +8,16 @@ import {
 } from "react-router-dom";
 
 import Header from "../components/header/Header";
+import { useAuth } from "../context/AuthContext";
+import { PrivateRoute } from "../components/privateRoute";
 
-import { useAuth } from "../context/context";
-import { PrivateRoute } from "./components/privateRoute";
+import Login from "../pages/Login";
+import Dashboard from "../pages/DashBoard";
+import Products from "../pages/ManageProducts";
+import PrimeUso from "../pages/PrimeUso";
+import Categories from "../pages/Categories";
+import Orders from "../pages/Orders";
 
-import Login from "./pages/Login";
-import Dashboard from "./pages/DashBoard";
-import Products from "./pages/ManageProducts";
-import PrimeUso from "./pages/PrimeUso";
-import Categories from "./pages/Categories";
-import Orders from "./pages/Orders";
-import Home from "./pages/Home";
-
-// ✅ Footer embebido aquí mismo
 const Footer = () => (
   <footer className="bg-gray-100 text-center py-4 mt-8">
     <p className="text-sm text-gray-600">© 2025 DreamCore. Todos los derechos reservados.</p>
@@ -28,7 +25,7 @@ const Footer = () => (
 );
 
 const Navigator = () => {
-  const { authCokie } = useAuth();
+  const { authCokie, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -41,9 +38,17 @@ const Navigator = () => {
 
   useEffect(() => {
     if (authCokie && location.pathname === "/") {
-      navigate("/dashboard");
+      navigate("/login");
     }
   }, [authCokie, location.pathname]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -56,12 +61,11 @@ const Navigator = () => {
             {!authCokie && <Route path="/login" element={<Login />} />}
 
             <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/" element={<Dashboard />} />
               <Route path="/pedidos" element={<Orders />} />
               <Route path="/categories" element={<Categories />} />
-              <Route path="/primeuso" element={<PrimeUso />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/products" element={<Products />} />
+              <Route path="/primerUso" element={<PrimeUso />} />
+              <Route path="/productos" element={<Products />} />
             </Route>
 
             <Route path="*" element={<Navigate to="/login" />} />
