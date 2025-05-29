@@ -27,7 +27,7 @@ const useDataCategories = () => {
 
   const addCategory = async ({ nombre, imagen }) => {
   const formData = new FormData();
-  formData.append("categoryName", nombre); // ✅ CAMBIO AQUÍ
+  formData.append("categoryName", nombre); 
   formData.append("image", imagen);
 
   try {
@@ -43,7 +43,7 @@ const useDataCategories = () => {
 
 const editCategory = async (id, { nombre, imagen }) => {
   const formData = new FormData();
-  formData.append("categoryName", nombre); // ✅ CAMBIO AQUÍ
+  formData.append("categoryName", nombre); 
   if (imagen) formData.append("image", imagen);
 
   try {

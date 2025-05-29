@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import carrito from "../assets/carropng.png";
 import productos from "../assets/productos.png";
-import clientes from "../assets/clientes.png";
 import ventas from "../assets/ventas.png";
 import welcomeImg from "../assets/welcome.png";
 
@@ -11,7 +10,6 @@ const Dashboard = () => {
 
   const tarjetas = [
     { titulo: "Productos", img: productos, ruta: "/productos" },
-    { titulo: "Clientes", img: clientes, ruta: "/clientes" },
     { titulo: "Categorias", img: ventas, ruta: "/categories" },
     { titulo: "pedidos", img: carrito, ruta: "/pedidos" },
   ];
