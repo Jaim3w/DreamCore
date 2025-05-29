@@ -1,5 +1,7 @@
 import CategoryActions from './CategoryActions';
 
+//categoría individual que muestra la imagen, nombre y acciones de editar y eliminar
+
 const CategoryCard = ({ category, onDelete }) => {
   return (
     <div className="flex flex-col items-center bg-white p-4 rounded shadow-md">

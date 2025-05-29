@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const ModalAgregarCategoria = ({ isOpen, onClose, onSubmit }) => {
-  const [nombre, setNombre] = useState("");
-  const [imagen, setImagen] = useState(null);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImagen(file);
+  const handleFormSubmit = (data) => {
+    const file = data.imagen?.[0];
+    if (!file) {
+      toast.error("Debes seleccionar una imagen");
+      return;
     }
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!nombre || !imagen) return alert("Nombre e imagen son requeridos");
-    onSubmit({ nombre, imagen });
-    setNombre("");
-    setImagen(null);
+    onSubmit({ nombre: data.nombre, imagen: file });
+    toast.success("¡Categoría agregada con éxito!");
+    reset();
     onClose();
   };
 
@@ -36,17 +39,24 @@ const ModalAgregarCategoria = ({ isOpen, onClose, onSubmit }) => {
           Agregar categoría
         </h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          {/* Campo nombre con mismo estilo que subir imagen */}
+        <form
+          onSubmit={handleSubmit(handleFormSubmit)}
+          className="flex flex-col gap-3"
+        >
+          {/* Campo nombre */}
           <label className="bg-white text-black rounded-md text-sm px-3 py-1.5">
             <input
               type="text"
               placeholder="Nombre"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              {...register("nombre", { required: "El nombre es obligatorio" })}
               className="w-full bg-transparent outline-none"
             />
           </label>
+          {errors.nombre && (
+            <span className="text-red-200 text-xs -mt-2 px-1">
+              {errors.nombre.message}
+            </span>
+          )}
 
           {/* Campo imagen */}
           <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 flex items-center justify-between cursor-pointer">
@@ -55,10 +65,15 @@ const ModalAgregarCategoria = ({ isOpen, onClose, onSubmit }) => {
             <input
               type="file"
               accept="image/*"
-              onChange={handleImageChange}
+              {...register("imagen", { required: "La imagen es obligatoria" })}
               className="hidden"
             />
           </label>
+          {errors.imagen && (
+            <span className="text-red-200 text-xs -mt-2 px-1">
+              {errors.imagen.message}
+            </span>
+          )}
 
           <button
             type="submit"
