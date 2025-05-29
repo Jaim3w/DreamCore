@@ -8,7 +8,7 @@ const PrimeUso = () => {
   const navigate = useNavigate();
 
   const handleContinue = () => {
-    navigate('/Dashboard'); // Cambia '/home' por tu ruta real
+    navigate('/'); // Cambia '/home' por tu ruta real
   };
 
   return (

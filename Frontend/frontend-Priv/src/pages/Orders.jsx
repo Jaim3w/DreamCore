@@ -6,60 +6,55 @@ import ConfirmationModal from '../components/orders/ConfirmationModal';
 
 // Componente principal para administrar las órdenes/pedidos
 const Orders = () => {
-  // Hook personalizado para obtener las órdenes y funciones relacionadas
   const { orders, loading, error, deleteOrder } = useOrders();
-
-  // Estado para controlar la visibilidad del modal de confirmación
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // Estado para guardar la orden seleccionada para eliminar
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  // Función que se llama al hacer clic en eliminar, abre el modal y guarda la orden seleccionada
   const handleDelete = (orderId) => {
     setSelectedOrder(orderId);
     setIsModalOpen(true);
   };
 
-  // Función que se llama al confirmar la eliminación en el modal
   const confirmDelete = async () => {
     await deleteOrder(selectedOrder);
     setIsModalOpen(false);
   };
 
-  // Muestra mensaje de carga si está cargando
-  if (loading) return <div>Loading orders...</div>;
-  // Muestra mensaje de error si hay un error
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div className="text-center mt-8">Cargando órdenes...</div>;
+  if (error) return <div className="text-center text-red-500 mt-8">Error: {error}</div>;
 
   return (
-    <div className="min-h-screen bg-[#f7fafc] px-4 md:px-8 py-6">
-      {/* Contenedor principal de la tabla */}
-      <div className="bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-2xl font-bold mb-6">Administra tus pedidos</h2>
-        <table className="w-full text-left rounded-2xl overflow-hidden">
-          <thead>
-            <tr className="bg-[#1b4d3e] text-white">
-              <th className="py-3 px-4">Cliente</th>
-              <th className="py-3 px-4">Producto</th>
-              <th className="py-3 px-4">Fecha de reserva</th>
-              <th className="py-3 px-4">cantidad</th>
-              <th className="py-3 px-4">Total</th>
-              <th className="py-3 px-4 text-center">Rehazar orden</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Renderiza la lista de órdenes */}
-            <OrderList orders={orders} onDelete={handleDelete} />
-          </tbody>
-        </table>
+    <div className="min-h-screen bg-[#f7fafc] px-4 sm:px-6 md:px-8 py-6">
+      <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 md:p-8">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
+          Administra tus pedidos
+        </h2>
+
+        {/* Scroll horizontal en pantallas pequeñas */}
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-left rounded-2xl">
+            <thead>
+              <tr className="bg-[#1b4d3e] text-white">
+                <th className="py-3 px-4 whitespace-nowrap">Cliente</th>
+                <th className="py-3 px-4 whitespace-nowrap">Producto</th>
+                <th className="py-3 px-4 whitespace-nowrap">Fecha de reserva</th>
+                <th className="py-3 px-4 whitespace-nowrap">Cantidad</th>
+                <th className="py-3 px-4 whitespace-nowrap">Total</th>
+                <th className="py-3 px-4 text-center whitespace-nowrap">Rechazar orden</th>
+              </tr>
+            </thead>
+            <tbody>
+              <OrderList orders={orders} onDelete={handleDelete} />
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Modal de confirmación para eliminar una orden */}
       <ConfirmationModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={confirmDelete}
-        message="Estas seguro de Rechazar ese pedido"
+        message="¿Estás seguro de rechazar este pedido?"
       />
     </div>
   );
