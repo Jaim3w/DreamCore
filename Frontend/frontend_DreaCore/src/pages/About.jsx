@@ -18,8 +18,6 @@ const EventosBoutique = () => {
 
       <div className="text-content">
         <center><h2> <span className="title-bold">EVENTOS       </span>{""}<span className="title-light">     BOUTIQUE</span></h2>
-
-        //Línea verdesita
         <div className="underline"></div>
             </center>
         
