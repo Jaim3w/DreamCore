@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // Importación de react-icons para los iconos
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaWhatsapp, FaShoppingCart, FaUser, FaBars, FaTimes } from 'react-icons/fa';
 
 //Importamos el logo que va en medio
 import logo from "../../assets/logonav.png";
@@ -13,6 +13,8 @@ import './Header.css';
 const Header = ({ onOpenCart }) => {
   // Creamos un estado para saber si el usuario ha hecho scroll
   const [scrolled, setScrolled] = useState(false);
+  // Estado para controlar el menú móvil
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     // Función que actualiza el estado
@@ -24,6 +26,16 @@ const Header = ({ onOpenCart }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Función para toggle del menú móvil
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  // Función para cerrar el menú al hacer click en un enlace
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header className="header-container">
@@ -60,12 +72,34 @@ const Header = ({ onOpenCart }) => {
         <a href="/home">Inicio</a>
         <a href="/about">Quiénes Somos</a>
 
-        {/* Logo centrado */}
+        {/* Logo centrado - solo visible en desktop */}
         <a href="/" className="logo-container">
           <img src={logo} alt="DreamCore Logo" />
         </a>
+
         <a href="/productos">Productos</a>
         <a href="/contactanos">Contáctanos</a>
+
+        {/* Botón hamburguesa - solo visible en móvil */}
+        <button 
+          className="hamburger-btn"
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+
+        {/* Menú de navegación móvil */}
+        <div className={`nav-links-mobile ${mobileMenuOpen ? 'nav-links-mobile-open' : ''}`}>
+          {/* Logo en el menú móvil */}
+          <a href="/" className="logo-container-mobile" onClick={closeMobileMenu}>
+            
+          </a>
+          <a href="/home" onClick={closeMobileMenu}>Inicio</a>
+          <a href="/about" onClick={closeMobileMenu}>Quiénes Somos</a>
+          <a href="/productos" onClick={closeMobileMenu}>Productos</a>
+          <a href="/contactanos" onClick={closeMobileMenu}>Contáctanos</a>
+        </div>
       </nav>
     </header>
   );

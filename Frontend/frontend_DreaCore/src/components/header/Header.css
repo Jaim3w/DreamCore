@@ -43,11 +43,17 @@
   justify-content: center;
   align-items: center;
   gap: 40px;
-  padding: 15px 0;
-  flex-wrap: wrap;
+  padding: 15px 20px;
   background-color: white;
   border-bottom: 1px solid #ddd;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 
 .nav-bar a {
@@ -115,11 +121,100 @@
   vertical-align: middle;
 }
 
+/* Botón hamburguesa - oculto por defecto */
+.hamburger-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #1D4635;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.hamburger-btn:hover {
+  color: #000;
+}
+
+/* Logo para menú móvil */
+.logo-container-mobile {
+  width: 80px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  overflow: hidden;
+}
+
+.logo-container-mobile img {
+  width: 90%;
+  height: auto;
+  display: block;
+}
+
+/* Ocultar menú móvil en desktop */
+.nav-links-mobile {
+  display: none;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .nav-bar {
-    gap: 20px;
+    justify-content: flex-end;
+    padding: 15px 20px;
+  }
+
+  /* Ocultar logo en móvil */
+  .logo-container {
+    display: none;
+  }
+
+  /* Mostrar botón hamburguesa en móvil */
+  .hamburger-btn {
+    display: block;
+  }
+
+  /* Mostrar menú móvil solo en móvil */
+  .nav-links-mobile {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    height: 100vh;
+    background-color: white;
+    display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+  }
+
+  /* Mostrar menú cuando está activo */
+  .nav-links-mobile-open {
+    left: 0;
+  }
+
+  .nav-links-mobile a {
+    font-size: 18px;
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+  }
+
+  .nav-links-mobile a:last-child {
+    border-bottom: none;
+  }
+
+  /* Ocultar enlaces de navegación normales en móvil */
+  .nav-bar > a {
+    display: none;
   }
 
   .top-bar {

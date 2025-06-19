@@ -1,123 +1,270 @@
 body {
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .eventos-section {
-    display: flex;
-    gap: 2rem;
-    padding: 2rem;
-    background-color: #fff;
-    flex-wrap: wrap;
-    align-items: flex-start;
-  }
-  
-  .text-content {
-    flex: 1;
-    min-width: 300px;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .title-bold {
-    color: #000000;
-    padding-right: 2px;
-    font-weight: 700;
-    font-size: 1.8rem;
-  }
-  
-  .title-light {
-    padding-left: 2px;
-    font-weight: 300;
-    font-size: 1.8rem;
-    color: #000000;
-  }
-  
-  .underline {
-    width: 90px;
-    height: 3px;
-    background-color: #014421;
-    margin: 0.5rem 0 1.5rem 0;
-  }
-  
-  .text-content p {
-    color: #333;
-    margin-bottom: 1rem;
-    line-height: 1.6;
-    font-weight: 400;
-  }
-  
-  .iconos {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1.5rem;
-  }
-  
-  .iconos div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #014421;
-    font-weight: 500;
-  }
-  
-  .icono {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
+  font-family: 'Poppins', sans-serif;
+}
 
-  .imagenes {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+.eventos-section {
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centra el contenedor */
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #fff;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Para pantallas muy grandes, añadir más padding lateral */
+@media (min-width: 1400px) {
+  .eventos-section {
+    padding: 2rem 4rem;
+  }
+}
+
+/* Para tablets y desktop medianos */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .eventos-section {
+    padding: 2rem 3rem;
+  }
+}
+
+/* Para móviles */
+@media (max-width: 767px) {
+  .eventos-section {
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+    align-items: center;
+  }
+}
+
+.text-content {
+  flex: 1;
+  min-width: 300px;
+  font-family: 'Poppins', sans-serif;
+  max-width: 600px; /* Limita el ancho del texto para mejor legibilidad */
+}
+
+/* Responsive para texto en móvil */
+@media (max-width: 767px) {
+  .text-content {
+    min-width: unset;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.title-bold {
+  color: #000000;
+  padding-right: 2px;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.title-light {
+  padding-left: 2px;
+  font-weight: 300;
+  font-size: 1.8rem;
+  color: #000000;
+}
+
+/* Títulos responsive */
+@media (max-width: 767px) {
+  .title-bold, .title-light {
+    font-size: 1.5rem;
+  }
+}
+
+.underline {
+  width: 90px;
+  height: 3px;
+  background-color: #014421;
+  margin: 0.5rem 0 1.5rem 0;
+}
+
+.text-content p {
+  color: #333;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: justify; /* Mejora la apariencia del texto */
+}
+
+/* Párrafos en móvil */
+@media (max-width: 767px) {
+  .text-content p {
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+}
+
+.iconos {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  justify-content: flex-start;
+}
+
+/* Para móviles, centrar los iconos y ajustar spacing */
+@media (max-width: 767px) {
+  .iconos {
+    justify-content: space-around;
+    gap: 1rem;
+    margin-top: 2rem;
     flex-wrap: wrap;
-    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .iconos {
+    gap: 0.5rem;
+  }
+}
+
+.iconos div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #014421;
+  font-weight: 500;
+}
+
+/* Iconos responsive */
+@media (max-width: 767px) {
+  .iconos div {
+    min-width: 80px;
   }
   
+  .iconos div p {
+    font-size: 0.85rem;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+.icono {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Tamaño de iconos en móvil */
+@media (max-width: 767px) {
+  .icono {
+    font-size: 1.8rem;
+    margin-bottom: 0.3rem;
+  }
+}
+
+.imagenes {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.imagenes-superpuestas {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 2rem;
+  gap: 10px;
+  height: 220px; /* Altura para permitir el espacio a la imagen central más alta */
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Imágenes responsive para móvil */
+@media (max-width: 767px) {
   .imagenes-superpuestas {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    height: 180px;
+    gap: 8px;
     margin-top: 2rem;
-    gap: 10px;
-    height: 220px; /* Altura para permitir el espacio a la imagen central más alta */
+    min-width: unset;
+    width: 100%;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .imagenes-superpuestas {
+    height: 150px;
+    gap: 5px;
+  }
+}
+
+.img {
+  width: 160px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 1;
+}
+
+/* Tamaño de imágenes responsive */
+@media (max-width: 767px) {
   .img {
-    width: 160px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    z-index: 1;
+    width: 120px;
+    height: 180px;
+    border-radius: 15px;
   }
-  
-  /* Efecto hover */
+}
+
+@media (max-width: 480px) {
+  .img {
+    width: 90px;
+    height: 150px;
+    border-radius: 12px;
+  }
+}
+
+/* Efecto hover */
+.img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Desactivar hover en móvil para mejor experiencia táctil */
+@media (max-width: 767px) {
   .img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-  
-  /* Imagen central por encima */
+}
+
+/* Imagen central por encima */
+.img-center {
+  position: relative;
+  top: -50px;
+  z-index: 2;
+}
+
+/* Ajustar posición de imagen central en móvil */
+@media (max-width: 767px) {
   .img-center {
-    position: relative;
-    top: -50px;
-    z-index: 2;
+    top: -40px;
   }
-  
-  
-  .img1 {
-    grid-area: img1;
-    height: 150px;
+}
+
+@media (max-width: 480px) {
+  .img-center {
+    top: -30px;
   }
-  
-  .img2 {
-    grid-area: img2;
-    height: 150px;
-  }
-  
-  .img3 {
-    grid-area: img3;
-    height: 150px;
-  }
-  
+}
+
+.img1 {
+  grid-area: img1;
+  height: 150px;
+}
+
+.img2 {
+  grid-area: img2;
+  height: 150px;
+}
+
+.img3 {
+  grid-area: img3;
+  height: 150px;
+}
