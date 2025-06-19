@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'; // ✅ asegúrate de importar los estilos
+
 import useDataProducts from "../components/Products/hooks/useDataProducts";
 import ListProduct from "../components/Products/ListProduct";
 import BotonGenerico from "../components/BotonGenerico";
@@ -29,7 +31,7 @@ const Products = () => {
     setSelectedProduct(null);
   };
 
- const handleSubmitProduct = async (productData) => {
+  const handleSubmitProduct = async (productData) => {
   const formattedData = {
     ...productData,
     price: parseFloat(productData.price),
@@ -45,35 +47,29 @@ const Products = () => {
   formData.append("idBrand", formattedData.idBrand);
   formData.append("productImage", formattedData.image);
 
-  const toastId = toast.loading(
-    selectedProduct ? "Actualizando producto..." : "Registrando producto..."
-  );
-
   try {
     if (selectedProduct) {
       await updateProduct(formData, selectedProduct._id);
-      toast.success("Producto actualizado correctamente", { id: toastId });
+      toast.success("Producto actualizado correctamente");
     } else {
       await addProduct(formData);
-      toast.success("Producto registrado correctamente", { id: toastId });
+      toast.success("Producto registrado correctamente");
     }
 
     setSelectedProduct(null);
     handleCloseModal();
 
-    // 🔁 DEVOLVEMOS un objeto indicando éxito
     return { success: true };
   } catch (error) {
-    toast.error("Hubo un error al guardar el producto", { id: toastId });
-
-    // 🔁 DEVOLVEMOS un objeto indicando fracaso
+    toast.error("Hubo un error al guardar el producto");
     return { success: false, message: error.message };
   }
 };
 
   return (
     <div className="p-4 sm:p-6 md:p-9">
-      <Toaster position="top-right" reverseOrder={false} />
+      {/* ✅ Aquí el contenedor de los toasts */}
+      <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Header de productos con búsqueda y botón */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-8 mb-6">

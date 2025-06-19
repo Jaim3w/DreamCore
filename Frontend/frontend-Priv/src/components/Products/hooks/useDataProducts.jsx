@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-toastify";
 
 const useDataProducts = () => {
   const [products, setProducts] = useState([]);
@@ -25,33 +25,37 @@ const useDataProducts = () => {
   };
 
   // Agregar producto
- const addProduct = async (formData) => {
-  try {
-    const response = await fetch("http://localhost:4000/api/products", {
-      method: "POST",
-      body: formData, // Aquí se pasa el FormData
-    });
-    const result = await response.json();
-    console.log(result); // Verifica que la respuesta sea la esperada
-    getData()
-  } catch (error) {
-    console.error("Error al agregar producto:", error);
-  }
-};
+  const addProduct = async (formData) => {
+    try {
+      const response = await fetch("http://localhost:4000/api/products", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Error al agregar");
+      toast.success("Producto agregado correctamente");
+      getData();
+    } catch (error) {
+      console.error("Error al agregar producto:", error);
+    }
+  };
 
   // Actualizar producto
-const updateProduct = async (formData, productId) => {
-  try {
-    const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
-      method: "PUT",
-      body: formData, // Aquí se pasa el FormData
-    });
-    const result = await response.json();
-    console.log(result); // Verifica que la respuesta sea la esperada
-  } catch (error) {
-    console.error("Error al actualizar producto:", error);
-  }
-};
+  const updateProduct = async (formData, productId) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/products/${productId}`, {
+        method: "PUT",
+        body: formData,
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Error al actualizar");
+      toast.success("Producto actualizado correctamente");
+      getData();
+    } catch (error) {
+      console.error("Error al actualizar producto:", error);
+      toast.error("No se pudo actualizar el producto");
+    }
+  };
 
   // Eliminar producto
   const deleteProduct = async (id) => {
@@ -71,7 +75,7 @@ const updateProduct = async (formData, productId) => {
     }
   };
 
-  // Buscar productos (con debounce)
+  // Buscar productos
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (query.trim() === "") {

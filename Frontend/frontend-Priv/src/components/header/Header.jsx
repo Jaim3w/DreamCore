@@ -76,7 +76,6 @@ const Header = ({ onOpenCart }) => {
         <div className={`nav-links-mobile ${mobileMenuOpen ? 'nav-links-mobile-open' : ''}`}>
           {/* Logo en el menú móvil */}
           <Link to="/" className="logo-container-mobile" onClick={closeMobileMenu}>
-            <img src={logo} alt="DreamCore Logo" />
           </Link>
           <Link to="/dashboard" onClick={closeMobileMenu}>Inicio</Link>
           <Link to="/pedidos" onClick={closeMobileMenu}>Pedidos</Link>
