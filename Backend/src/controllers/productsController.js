@@ -128,5 +128,29 @@ productsController.deleteProducts = async (req, res) => {
     res.status(500).json({ message: "Error ", error: error.message });
   }
 };
+productsController.getProductsByCategory = async (req, res) => {
+  try {
+    const { categoryName } = req.params;
+
+    // Buscar la categoría por nombre (case insensitive)
+    const categoria = await categoryModel.findOne({
+      categoryName: new RegExp(`^${categoryName}$`, "i"),
+    });
+
+    if (!categoria) {
+      return res.status(200).json([]); // Si no existe, devolver array vacío
+    }
+
+    // Buscar productos con esa categoría
+    const productos = await productsModel
+      .find({ idCategory: categoria._id })
+      .populate("idCategory", "categoryName")
+      .populate("idBrand", "brandName");
+
+    res.status(200).json(productos);
+  } catch (error) {
+    res.status(500).json({ message: "Error", error: error.message });
+  }
+};
 
 export default productsController;

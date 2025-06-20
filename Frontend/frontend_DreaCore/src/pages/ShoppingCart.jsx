@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import trashIcon from "../assets/trash(2).png";
 import { useNavigate } from "react-router-dom"; // Importamos el hook para navegar
+import { useCart } from "../context/CartContext";
+
 
 // Componente principal del carrito de compras
 function ShoppingCart({ onClose }) {
+  const { productsInCart, removeFromCart, updateQuantity } = useCart();
+
   // Estado local para los productos en el carrito
   const [products, setProducts] = useState([
     {
