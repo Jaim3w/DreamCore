@@ -33,7 +33,6 @@ const useDataProducts = () => {
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Error al agregar");
-      toast.success("Producto agregado correctamente");
       getData();
     } catch (error) {
       console.error("Error al agregar producto:", error);
@@ -49,7 +48,6 @@ const useDataProducts = () => {
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.message || "Error al actualizar");
-      toast.success("Producto actualizado correctamente");
       getData();
     } catch (error) {
       console.error("Error al actualizar producto:", error);

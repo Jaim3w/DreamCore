@@ -16,40 +16,48 @@ productsController.createProducts = async (req, res) => {
 
   const { idCategory, idBrand, productName, description, price, stock } = req.body;
 
+  // Validar campos básicos
   if (!idCategory || !idBrand || !productName || !description || !price || !stock) {
     return res.status(400).json({
       error: "Todos los campos son obligatorios",
     });
   }
 
-  // Subir la imagen a Cloudinary
-  let imageURL = "";
-  if (req.file) {
+  // Validar que haya imagen
+  if (!req.file) {
+    return res.status(400).json({
+      error: "La imagen es obligatoria",
+    });
+  }
+
+  try {
+    // Subir la imagen a Cloudinary
     const result = await cloudinary.uploader.upload(req.file.path, {
       folder: "public",
       allowed_formats: ["jpg", "png", "jpeg"],
     });
-    imageURL = result.secure_url;
-  }
 
-  // Crear el nuevo producto
-  const newProduct = new productsModel({
-    idCategory,
-    idBrand,
-    productName,
-    description,
-    price,
-    stock,
-    productImage: imageURL,
-  });
+    const imageURL = result.secure_url;
 
-  try {
+    // Crear el nuevo producto
+    const newProduct = new productsModel({
+      idCategory,
+      idBrand,
+      productName,
+      description,
+      price,
+      stock,
+      productImage: imageURL,
+    });
+
     await newProduct.save();
-    res.json(newProduct);
+    res.status(200).json(newProduct);
   } catch (error) {
+    console.error("Error al crear producto:", error);
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // OBTENER TODOS Las producto
 productsController.getProducts = async (req, res) => {

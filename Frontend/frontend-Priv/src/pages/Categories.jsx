@@ -40,14 +40,13 @@ const Categories = () => {
     <div className="p-6">
       {/* Encabezado y botón para agregar categoría */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="font-bold text-lg">Ingresa Categorías:</h2>
-        <h2 className="font-bold text-xl sm:text-2xl">Ingresa Productos:</h2>
-        <button
+        <h2 className="font-bold text-xl sm:text-2xl">Ingresa Categorías:</h2>
+        <BotonGenerico
+        label="Agregar categorías"
           className="bg-green-800 text-white px-4 py-2 rounded hover:bg-green-700"
           onClick={() => setIsAddModalOpen(true)}
-        >
-          Agregar categorías
-        </button>
+        />
+        
       </div>
 
       {/* Modal para agregar categoría */}

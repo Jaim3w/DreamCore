@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { Dialog } from "@headlessui/react";
 import { useForm, Controller } from "react-hook-form";
+import { motion } from "framer-motion";
 
 const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) => {
   const {
@@ -11,7 +11,7 @@ const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) =
     clearErrors,
     formState: { errors },
     reset,
-    control
+    control,
   } = useForm();
 
   const [brands, setBrands] = useState([]);
@@ -19,9 +19,9 @@ const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) =
   const [previewImage, setPreviewImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  // ✅ Reiniciar el modal cada vez que se abre
   useEffect(() => {
     if (isOpen) {
-      // Fetch de marcas y categorías
       fetch("http://localhost:4000/api/brands")
         .then((res) => res.json())
         .then(setBrands)
@@ -33,190 +33,184 @@ const ModalCreateProduct = ({ isOpen, onClose, onSubmit, initialData = null }) =
         .catch(console.error);
 
       if (initialData) {
-        // Si hay datos iniciales, pre-llenamos los campos
         setValue("productName", initialData.productName);
         setValue("description", initialData.description);
         setValue("price", initialData.price);
         setValue("stock", initialData.stock);
         setValue("idCategory", initialData.idCategory);
         setValue("idBrand", initialData.idBrand);
-        setPreviewImage(initialData.productImage);  // Previsualizar la imagen
+        setPreviewImage(initialData.productImage);
       } else {
-        reset();  // Limpiar los campos si no hay producto
+        reset();
+        setPreviewImage(null);
       }
     }
   }, [isOpen, initialData, setValue, reset]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setPreviewImage(URL.createObjectURL(file));
-      setValue("image", file);  
-      clearErrors("image"); 
-    }
-  };
-
   const handleRemoveImage = () => {
     setPreviewImage(null);
-    setValue("image", null); 
+    setValue("image", null);
     if (fileInputRef.current) fileInputRef.current.value = null;
   };
 
-  const handleFormSubmit = async (data) => {
-    if (!data.image) {
-      return alert("Por favor selecciona una imagen.");
-    }
+  const handleFormSubmit = (data) => {
+  // Si no hay imagen nueva Y no hay imagen previa, mostrar alerta
+  if (!data.image && !previewImage) {
+    alert("Por favor selecciona una imagen.");
+    return;
+  }
 
-    // Enviar los datos al manejador de submit
-    onSubmit(data);
-  };
+  // Si no hay imagen nueva pero sí hay previa, reutiliza la imagen anterior
+  if (!data.image && previewImage) {
+    data.image = previewImage;
+  }
+
+  onSubmit(data);
+};
+
+
+  if (!isOpen) return null;
 
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-50">
-      <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
-      <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel
-          as={motion.div}
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.95, opacity: 0 }}
-          className="w-full max-w-2xl rounded-2xl bg-white p-8 shadow-xl"
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 pt-20 sm:pt-24 flex items-center justify-center">
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="bg-[#2e7d5c] text-white px-6 py-5 rounded-2xl w-[380px] relative shadow-lg max-h-[95vh] overflow-y-auto"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-3 text-white text-lg hover:text-gray-300"
         >
-          <Dialog.Title className="text-2xl font-bold text-center mb-6">
-            {initialData ? "Editar Producto" : "Crear Producto"}
-          </Dialog.Title>
+          ✕
+        </button>
 
-          <form onSubmit={handleSubmit(handleFormSubmit)} className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col">
-              <input
-                type="text"
-                {...register("productName", { required: "Nombre requerido" })}
-                placeholder="Nombre"
-                className="input"
-              />
-              {errors.productName && <p className="text-red-500 text-sm">{errors.productName.message}</p>}
-            </div>
+        <h2 className="text-center text-lg font-semibold mb-4">
+          {initialData ? "Editar producto" : "Crear producto"}
+        </h2>
 
-            <div className="flex flex-col">
-              <input
-                type="text"
-                {...register("description", { required: "Descripción requerida" })}
-                placeholder="Descripción"
-                className="input"
-              />
-              {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
-            </div>
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <div className="sm:col-span-2">
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 block">
+      <input
+        type="text"
+        placeholder="Nombre"
+        {...register("productName", { required: "Nombre requerido" })}
+        className="w-full bg-transparent outline-none"
+      />
+    </label>
+    {errors.productName && <span className="text-red-200 text-xs px-1">{errors.productName.message}</span>}
+  </div>
 
-            <div className="flex flex-col">
-              <input
-                type="number"
-                {...register("price", { required: "Precio requerido" })}
-                placeholder="Precio"
-                className="input"
-              />
-              {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
-            </div>
+  <div>
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 block">
+      <input
+        type="number"
+        placeholder="Precio"
+        {...register("price", { required: "Precio requerido" })}
+        className="w-full bg-transparent outline-none"
+      />
+    </label>
+    {errors.price && <span className="text-red-200 text-xs px-1">{errors.price.message}</span>}
+  </div>
 
-            <div className="flex flex-col">
-              <input
-                type="number"
-                {...register("stock", { required: "Stock requerido" })}
-                placeholder="Stock"
-                className="input"
-              />
-              {errors.stock && <p className="text-red-500 text-sm">{errors.stock.message}</p>}
-            </div>
+  <div>
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 block">
+      <input
+        type="number"
+        placeholder="Stock"
+        {...register("stock", { required: "Stock requerido" })}
+        className="w-full bg-transparent outline-none"
+      />
+    </label>
+    {errors.stock && <span className="text-red-200 text-xs px-1">{errors.stock.message}</span>}
+  </div>
 
-            <div className="flex flex-col">
-              <select {...register("idCategory", { required: "Categoría requerida" })} className="input">
-                <option value="">Seleccionar categoría</option>
-                {categories.map((cat) => (
-                  <option key={cat._id} value={cat._id}>
-                    {cat.categoryName}
-                  </option>
-                ))}
-              </select>
-              {errors.idCategory && <p className="text-red-500 text-sm">{errors.idCategory.message}</p>}
-            </div>
+  <div className="sm:col-span-2">
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 block">
+      <input
+        type="text"
+        placeholder="Descripción"
+        {...register("description", { required: "Descripción requerida" })}
+        className="w-full bg-transparent outline-none"
+      />
+    </label>
+    {errors.description && <span className="text-red-200 text-xs px-1">{errors.description.message}</span>}
+  </div>
 
-            <div className="flex flex-col">
-              <select {...register("idBrand", { required: "Marca requerida" })} className="input">
-                <option value="">Seleccionar marca</option>
-                {brands.map((brand) => (
-                  <option key={brand._id} value={brand._id}>
-                    {brand.brandName}
-                  </option>
-                ))}
-              </select>
-              {errors.idBrand && <p className="text-red-500 text-sm">{errors.idBrand.message}</p>}
-            </div>
+  <div>
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 block">
+      <select {...register("idCategory", { required: "Categoría requerida" })} className="w-full bg-transparent outline-none">
+        <option value="">Categoría</option>
+        {categories.map(cat => (
+          <option key={cat._id} value={cat._id}>{cat.categoryName}</option>
+        ))}
+      </select>
+    </label>
+    {errors.idCategory && <span className="text-red-200 text-xs px-1">{errors.idCategory.message}</span>}
+  </div>
 
-            <div className="col-span-2 border-2 border-dashed border-gray-300 rounded-xl p-6 text-center text-gray-500 cursor-pointer hover:border-gray-400 transition">
-              <label htmlFor="image" className="block cursor-pointer">
-                Haz clic para seleccionar una imagen
-              <Controller
-                name="image"
-                control={control}
-                render={({ field }) => (
-                  <>
-                    <input
-                      type="file"
-                      id="image"
-                      ref={fileInputRef}
-                      onChange={(e) => {
-                        const file = e.target.files[0];
-                        if (file) {
-                          setPreviewImage(URL.createObjectURL(file));
-                          field.onChange(file);
-                          clearErrors("image");
-                        }
-                      }}
-                      className="hidden"
-                    />
-                    {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
-                  </>
-                )}
-              />
-              </label>
+  <div>
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 block">
+      <select {...register("idBrand", { required: "Marca requerida" })} className="w-full bg-transparent outline-none">
+        <option value="">Marca</option>
+        {brands.map(brand => (
+          <option key={brand._id} value={brand._id}>{brand.brandName}</option>
+        ))}
+      </select>
+    </label>
+    {errors.idBrand && <span className="text-red-200 text-xs px-1">{errors.idBrand.message}</span>}
+  </div>
 
-              {previewImage && (
-                <div className="mt-4">
-                  <img
-                    src={previewImage}
-                    alt="Previsualización"
-                    className="mx-auto max-h-40 object-contain rounded-lg shadow"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="mt-2 text-red-500 hover:underline text-sm"
-                  >
-                    Eliminar imagen
-                  </button>
-                </div>
-              )}
-              {errors.image && <p className="col-span-2 text-red-500 text-sm">{errors.image.message}</p>}
-            </div>
+  <div className="sm:col-span-2 flex flex-col items-center mt-2">
+    <label className="bg-white text-black rounded-md text-sm px-3 py-1.5 flex items-center justify-between w-full sm:w-1/2 cursor-pointer">
+      Subir imagen <span>📎</span>
+      <Controller
+        name="image"
+        control={control}
+        render={({ field }) => (
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                setPreviewImage(URL.createObjectURL(file));
+                field.onChange(file);
+                clearErrors("image");
+              }
+            }}
+            className="hidden"
+          />
+        )}
+      />
+    </label>
+    {errors.image && <span className="text-red-200 text-xs px-1 mt-1">{errors.image.message}</span>}
 
-            <div className="col-span-2 flex justify-end gap-4 mt-6">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-6 py-2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700"
-              >
-                {initialData ? "Actualizar" : "Crear"}
-              </button>
-            </div>
-          </form>
-        </Dialog.Panel>
+    {previewImage && (
+      <div className="flex flex-col items-center mt-2">
+        <img src={previewImage} alt="Vista previa" className="w-32 h-32 object-cover rounded-md shadow" />
+        <button type="button" onClick={handleRemoveImage} className="text-red-200 text-xs mt-1 hover:underline">
+          Eliminar imagen
+        </button>
       </div>
-    </Dialog>
+    )}
+  </div>
+
+  <div className="sm:col-span-2 flex justify-center mt-2">
+    <button
+      type="submit"
+      className="bg-[#17604e] hover:bg-[#145f44] text-white py-1.5 px-8 rounded-md text-sm shadow-md transition"
+    >
+      {initialData ? "Actualizar" : "Crear"}
+    </button>
+  </div>
+</form>
+      </motion.div>
+    </div>
   );
 };
 
