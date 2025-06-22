@@ -6,11 +6,28 @@ const clientsController = {};
 //Ingresar clienge
 
 clientsController.createClients = async (req, res) => {
-    const { name, lastName, email, password, birthDate, phone, profilePicture} = req.body;
-    const newClient = new clientsModel({ name, lastName, email, password, birthDate, phone, profilePicture});
+  try {
+    const { name, lastName, email, password, birthDate, phone, profilePicture } = req.body;
+
+    const newClient = new clientsModel({
+      name,
+      lastName,
+      email,
+      password,
+      birthDate,
+      phone,
+      profilePicture
+    });
+
     await newClient.save();
-    res.json({ message: "client saved" });
-  };
+    res.status(201).json({ message: "Client saved" });
+
+  } catch (error) {
+    console.error("Error al crear cliente:", error);
+    res.status(400).json({ message: "Error al crear el cliente", error: error.message });
+  }
+};
+
 
 // OBTENER TODOS LOS CLIENTES
 clientsController.getClients = async (req, res) => {
