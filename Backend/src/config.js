@@ -24,6 +24,11 @@ cloudinary: {
     cloud_name: process.env.CLOUD_NAME,
     cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
     cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET
-  }
+  },
+ email: {
+  email: process.env.USER_EMAIL,
+  password: process.env.USER_PASS,
+  username: process.env.USER_EMAIL 
 }
-//zxvxcvsadasd
+}
+//zxvxcvsadasdssad

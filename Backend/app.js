@@ -1,6 +1,7 @@
-// importar todo lo de la libreria "express"
 import cors from "cors";
 import express from "express";
+import cookieParser from "cookie-parser";
+
 import categoriesRoutes from "./src/routes/categories.js";
 import notificationsRoutes from "./src/routes/notifications.js";
 import brandsRoutes from "./src/routes/brands.js";
@@ -11,24 +12,21 @@ import productsRoutes from "./src/routes/Products.js";
 import ordersRoutes from "./src/routes/orders.js";
 import loginRoutes from "./src/routes/login.js";
 import logoutRoutes from "./src/routes/logout.js";
+import registerRoutes from "./src/routes/registerClient.js"; // 
 
+const app = express();
 
-// Creo una constante que es igual a la libreria que
-// acabo de importar y lo ejecuto
-const app = express();    
+// Permitir solicitudes del frontend
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", 
-    credentials: true,
-  })
-);
-
-
-// middleware para aceptar datos desde postman
+// Middleware para JSON y cookies
 app.use(express.json());
-//app.use(cookieParser());
-// Definir las rutas de las funciones que tendrá la página web
+app.use(cookieParser());
+
+// Rutas de la API
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/notifications", notificationsRoutes);
 app.use("/api/brands", brandsRoutes);
@@ -36,15 +34,12 @@ app.use("/api/sales", salesRoutes);
 app.use("/api/clients", clientsRoutes);
 app.use("/api/reviews", reviewsRoutes);
 app.use("/api/products", productsRoutes);
-app.use ("/api/orders", ordersRoutes);
-app.use("/api/login",loginRoutes);
-app.use("/api/logout",logoutRoutes);
+app.use("/api/orders", ordersRoutes);
+app.use("/api/login", loginRoutes);
+app.use("/api/logout", logoutRoutes);
+app.use("/api/register", registerRoutes); 
 
-
-
-// Exporto la constante para poder usar express en otros
-// archivos
-// Verificación de estado para el cliente (usada en AuthContext)
+// Ruta simple para comprobar si el backend responde
 app.head("/api", (req, res) => res.sendStatus(200));
 
 export default app;
