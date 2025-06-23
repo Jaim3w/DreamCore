@@ -13,6 +13,7 @@ import Contactanos from './pages/Contactanos';
 import Login from './pages/login';
 import ShoppingCart from './pages/ShoppingCart';
 import SignUp from './pages/SignUp';
+import VerificarAccount from './pages/VerifyAccount';
 
 function Layout() {
   const location = useLocation();
@@ -35,6 +36,7 @@ function Layout() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/carrito" element={<ShoppingCart />} />
+            <Route path="/verificar" element={<VerificarAccount />} />
         </Routes>
       </main>
       {!hideLayout && <Footer />}

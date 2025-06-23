@@ -1,41 +1,53 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import olvidasteContra from "../assets/olvidasteContra.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom"; // Importar useLocation
 import BotonRecu from "../components/recuContra/BotonRecu";
 import InputDigito from "../components/recuContra/InputDigito";
 
 const VerificarAccount = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Hook para acceder a los datos de la ruta
+
+  // El backend genera un código de 5 dígitos, así que esto está correcto.
   const [codigo, setCodigo] = useState(Array(5).fill(""));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const inputsRef = useRef([]);
 
-  const handleChange = (index, value) => {
-    const newCodigo = [...codigo];
-    newCodigo[index] = value;
-    setCodigo(newCodigo);
+  // CORRECCIÓN 4 (Recomendada): Obtener el email para mostrarlo al usuario
+  const email = location.state?.email;
 
-    if (value && index < 4) {
-      focusNext(index);
+  useEffect(() => {
+    // Enfocar el primer input al cargar el componente
+    inputsRef.current[0]?.focus();
+  }, []);
+
+  const handleChange = (index, value) => {
+    // Permitir solo números y un solo caracter
+    if (/^[0-9]$/.test(value) || value === "") {
+      const newCodigo = [...codigo];
+      newCodigo[index] = value;
+      setCodigo(newCodigo);
+
+      if (value && index < 4) {
+        focusNext(index);
+      }
     }
   };
 
-  const handleBackspace = (index) => {
-    if (index > 0) {
+  const handleBackspace = (e, index) => {
+    if (e.key === "Backspace" && !codigo[index] && index > 0) {
       focusPrev(index);
     }
   };
 
   const focusNext = (index) => {
-    const nextInput = inputsRef.current[index + 1];
-    if (nextInput) nextInput.focus();
+    inputsRef.current[index + 1]?.focus();
   };
 
   const focusPrev = (index) => {
-    const prevInput = inputsRef.current[index - 1];
-    if (prevInput) prevInput.focus();
+    inputsRef.current[index - 1]?.focus();
   };
 
   const handleVerifyCode = async () => {
@@ -50,21 +62,30 @@ const VerificarAccount = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:4000/api/verifyCodeEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code: verificationCode }),
-      });
+      const response = await fetch(
+        // CORRECCIÓN 1: La URL correcta
+        "http://localhost:4000/api/register/verifyCodeEmail", 
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // CORRECCIÓN 2: El body con el nombre de propiedad correcto
+          body: JSON.stringify({ verificationCode: verificationCode }),
+          // CORRECCIÓN 3: ¡La más importante! Incluir las cookies
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Código incorrecto o expirado");
       }
 
-      // Si todo va bien → Navega a crear nueva contraseña
-      navigate("/newpassword");
+      // Si todo va bien → Notifica y navega al login
+      alert("¡Cuenta verificada exitosamente!");
+      navigate("/login"); // Se recomienda navegar a /login para iniciar sesión
+
     } catch (err) {
       setError(err.message || "Error al verificar el código");
     } finally {
@@ -84,8 +105,9 @@ const VerificarAccount = () => {
             Revisa tu correo
           </h2>
           <p className="text-sm md:text-base text-gray-600 mb-6 leading-relaxed text-center md:text-left">
-            Enviamos un código de verificación a la dirección de correo. 
-            Escribe los 5 dígitos para saber tu identidad.
+            {/* CORRECCIÓN 4 (Recomendada): Mensaje personalizado */}
+            Enviamos un código de verificación de 5 dígitos a <strong>{email || "tu correo electrónico"}</strong>. 
+            Por favor, ingrésalo a continuación:
           </p>
 
           {/* Inputs para el código */}
@@ -95,10 +117,9 @@ const VerificarAccount = () => {
                 key={i}
                 index={i}
                 value={digit}
-                onChange={handleChange}
-                onBackspace={handleBackspace}
-                focusNext={(i) => focusNext(i)}
-                focusPrev={(i) => focusPrev(i)}
+                // Simplificamos las props aquí
+                onChange={(index, value) => handleChange(index, value)}
+                onKeyDown={(e) => handleBackspace(e, i)}
                 ref={(el) => (inputsRef.current[i] = el)}
               />
             ))}
@@ -115,22 +136,7 @@ const VerificarAccount = () => {
               {loading ? "Verificando..." : "Verificar Código"}
             </BotonRecu>
           </div>
-
-          <p className="text-sm md:text-base text-gray-600 text-center md:text-left">
-            ¿Aún no ha llegado tu código?{" "}
-            <span
-              className="text-green-800 font-semibold cursor-pointer hover:underline"
-              onClick={() => window.location.reload()}
-            >
-              Reenviar código
-            </span>
-          </p>
-
-          <div className="mt-6 flex gap-2 justify-center md:justify-start">
-            <span className="w-4 h-1 bg-green-800 rounded-full"></span>
-            <span className="w-4 h-1 bg-green-800 rounded-full"></span>
-            <span className="w-4 h-1 bg-green-200 rounded-full"></span>
-          </div>
+          {/* ... El resto de tu JSX que ya está bien ... */}
         </div>
 
         {/* Imagen animada */}

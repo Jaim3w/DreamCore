@@ -4,51 +4,36 @@ const clientsSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
-      maxLength: 100,
-      match: [
-        /^[\p{L}\s]+$/u,
-        "El nombre solo puede contener letras y espacios",
-      ],
+      default: "",
+      trim: true,
     },
     lastName: {
       type: String,
-      required: true,
-      maxLength: 100,
-      match: [
-        /^[\p{L}\s]+$/u,
-        "El apellido solo puede contener letras y espacios",
-      ],
+      default: "",
+      trim: true,
     },
     email: {
       type: String,
-      required: true,
-      maxLength: 100,
-      match: [
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i,
-        "Por favor, ingrese un correo electrónico válido",
-      ],
+      required: true,   // Lo dejamos requerido porque Google SI nos devuelve email
+      trim: true,
+      lowercase: true,
+      unique: true,     // 👈 Puedes quitarlo si quieres permitir duplicados
     },
     password: {
       type: String,
-      required: true,
-      minlength: 6,
+      required: true,   // Google le manda uno generado automáticamente
     },
     birthDate: {
-      type: Date,
-      required: true,
+      type: String,
+      default: "",      // No requerido
     },
     phone: {
       type: String,
-      required: true,
-      match: [
-        /^[0-9]{8}$/,
-        "El teléfono debe contener exactamente 8 dígitos numéricos",
-      ],
+      default: "",      // No requerido
     },
     profilePicture: {
       type: String,
-      default: "",
+      default: "",      // Opcional para cuando quieras agregar foto de perfil
     },
   },
   {
@@ -56,4 +41,4 @@ const clientsSchema = new Schema(
   }
 );
 
-export default model("clients", clientsSchema);
+export default model("Clients", clientsSchema);
