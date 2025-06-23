@@ -38,8 +38,7 @@ registerClientController.register = async (req, res) => {
     await newClient.save();
 
     // Generar código de verificación
-    const verificationCode = crypto.randomBytes(3).toString("hex");
-    const expiresAt = Date.now() + 2 * 60 * 60 * 1000; // 2 horas
+   const verificationCode = crypto.randomInt(10000, 99999).toString();
 
     const tokenCode = jwt.sign(
       { email, verificationCode, expiresAt },
@@ -66,7 +65,7 @@ registerClientController.register = async (req, res) => {
       from: config.email.username,
       to: email,
       subject: "Verificación de correo electrónico - DreamCore",
-      text: `¡Hola ${name}!\n\nUtiliza este código para verificar tu cuenta: ${verificationCode}\nEste código expirará en 2 horas.\n\nSi no solicitaste este registro, puedes ignorar este correo.`,
+     text: `¡Hola ${name}!\n\nTu código de verificación es: ${verificationCode}\n(5 dígitos numéricos, válido por 2 horas)`,
     };
 
     transporter.sendMail(mailOptions, (err, info) => {
