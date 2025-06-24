@@ -63,16 +63,16 @@ const VerificarAccount = () => {
 
     try {
       const response = await fetch(
-        // CORRECCIÓN 1: La URL correcta
+        
         "http://localhost:4000/api/register/verifyCodeEmail", 
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          // CORRECCIÓN 2: El body con el nombre de propiedad correcto
+         
           body: JSON.stringify({ verificationCode: verificationCode }),
-          // CORRECCIÓN 3: ¡La más importante! Incluir las cookies
+        
           credentials: "include",
         }
       );
