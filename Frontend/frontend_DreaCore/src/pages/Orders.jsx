@@ -1,28 +1,28 @@
-// src/pages/Orders.jsx
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import toast, { Toaster } from "react-hot-toast";
 
 const Orders = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const { clearCart } = useCart();
-
+  const { user } = useAuth(); 
   const [date, setDate] = useState("");
-  const [clientId, setClientId] = useState("67ae0ff6b57c9604ffdf9c33");
+
+  const clientId = user?._id;
 
   const { products, total } = state || { products: [], total: 0 };
 
   const today = new Date();
   const minDate = today.toISOString().split("T")[0];
-  const maxDateObj = new Date(today.setMonth(today.getMonth() + 2));
-  const maxDate = maxDateObj.toISOString().split("T")[0];
+  const maxDate = new Date(today.setMonth(today.getMonth() + 2)).toISOString().split("T")[0];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!clientId || clientId.trim() === "") {
+    if (!clientId) {
       toast.error("Debes iniciar sesión para hacer una reserva.");
       return;
     }
@@ -89,15 +89,10 @@ const Orders = () => {
           </h3>
           <ul className="divide-y divide-gray-200">
             {products.map((p) => (
-              <li
-                key={p._id}
-                className="flex justify-between items-center py-3"
-              >
+              <li key={p._id} className="flex justify-between items-center py-3">
                 <div>
                   <p className="text-gray-700 font-medium">{p.productName}</p>
-                  <p className="text-sm text-gray-500">
-                    Cantidad: <strong>{p.quantity}</strong>
-                  </p>
+                  <p className="text-sm text-gray-500">Cantidad: <strong>{p.quantity}</strong></p>
                 </div>
                 <p className="text-[#1C4C38] font-semibold">
                   ${(p.price * p.quantity).toFixed(2)}
@@ -108,9 +103,7 @@ const Orders = () => {
         </div>
 
         <div className="mb-6 text-right">
-          <p className="text-2xl font-bold text-[#1C4C38]">
-            Total: ${total.toFixed(2)}
-          </p>
+          <p className="text-2xl font-bold text-[#1C4C38]">Total: ${total.toFixed(2)}</p>
         </div>
 
         <button

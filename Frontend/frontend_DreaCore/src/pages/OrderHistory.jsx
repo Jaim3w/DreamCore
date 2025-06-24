@@ -1,14 +1,15 @@
-// src/pages/OrderHistory.jsx
 import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
-  const clientId = "67ae0ff6b57c9604ffdf9c33"; // Reemplazar por usuario logueado si aplica
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-const res = await fetch(`http://localhost:4000/api/orders/client/${clientId}`);
+        if (!user?._id) return;
+        const res = await fetch(`http://localhost:4000/api/orders/client/${user._id}`);
         if (!res.ok) throw new Error("No se pudo obtener el historial");
         const data = await res.json();
         setOrders(data);
@@ -18,7 +19,7 @@ const res = await fetch(`http://localhost:4000/api/orders/client/${clientId}`);
     };
 
     fetchOrders();
-  }, []);
+  }, [user]);
 
   return (
     <div className="min-h-screen bg-[#F7F9F8] p-8">
