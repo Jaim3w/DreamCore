@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import Home from './pages/Home';
@@ -14,41 +15,51 @@ import Login from './pages/login';
 import ShoppingCart from './pages/ShoppingCart';
 import SignUp from './pages/SignUp';
 import VerificarAccount from './pages/VerifyAccount';
+import SplashScreen from './pages/splashScreen';
+import Orders from './pages/Orders';
+import OrderHistory from './pages/OrderHistory';
 
-function Layout() {
+const AppContent = () => {
   const location = useLocation();
+  const [mostrarHeader, setMostrarHeader] = useState(true);
+
+  const rutasSinHeader = ['/', '/login', '/signup', '/RecoverPassword', '/CheckNumber', '/NewPassword'];
   const hideLayout = location.pathname === '/signup';
+  const mostrarHeaderReal = mostrarHeader && !rutasSinHeader.includes(location.pathname);
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {!hideLayout && <Header />}
+      {mostrarHeaderReal && <Header />}
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<SplashScreen />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/terminos" element={<Terminos />} />
           <Route path="/RecoverPassword" element={<RecoverPassword />} />
           <Route path="/CheckNumber" element={<CheckNumber />} />
           <Route path="/NewPassword" element={<NewPassword />} />
-          <Route path="/productos" element={<Products />} />
-          <Route path="/productos/:categoria" element={<Products />} />
+          <Route path="/productos" element={<Products setMostrarHeader={setMostrarHeader} />} />
+          <Route path="/productos/:categoria" element={<Products setMostrarHeader={setMostrarHeader} />} />
           <Route path="/contactanos" element={<Contactanos />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/carrito" element={<ShoppingCart />} />
-            <Route path="/verificar" element={<VerificarAccount />} />
+          <Route path="/verificar" element={<VerificarAccount />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/orderHistory" element={<OrderHistory />} />
         </Routes>
       </main>
       {!hideLayout && <Footer />}
     </div>
   );
-}
+};
 
 function App() {
   return (
     <CartProvider>
       <Router>
-        <Layout />
+        <AppContent />
       </Router>
     </CartProvider>
   );
