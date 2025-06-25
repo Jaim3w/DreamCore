@@ -10,6 +10,7 @@ import Products from './pages/Products';
 import CheckNumber from './pages/CheckNumber';
 import NewPassword from './pages/NewPassword';
 import Contactanos from './pages/Contactanos';
+import Categorias from './pages/Categories';
 import Login from './pages/login';
 import ShoppingCart from './pages/ShoppingCart';
 import SignUp from './pages/SignUp';
