@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import ShoppingCart from './ShoppingCart';
+
 import '../components/styles/Products.css';
 
 const categorias = ['todo', 'sillas', 'manteles', 'copas', 'luces', 'mesas'];
@@ -83,7 +84,9 @@ const handleCloseCart = () => {
         {productos.map((prod) => (
           <article key={prod._id} className="producto-card">
             <div className="producto-imagen">
-              <img src={prod.productImage} alt={prod.productName} />
+              <Link to={`/producto/${prod._id}`}>
+               <img src={prod.productImage} alt={prod.productName} />
+              </Link>
             </div>
             <div className="producto-info">
               <h3>{prod.productName}</h3>

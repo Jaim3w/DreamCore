@@ -21,6 +21,7 @@ import VerificarAccount from './pages/VerifyAccount';
 import SplashScreen from './pages/splashScreen';
 import Orders from './pages/Orders';
 import OrderHistory from './pages/OrderHistory';
+import DetalleProducto from './pages/DetalleProducto';
 
 const AppContent = () => {
   const location = useLocation();
@@ -51,6 +52,7 @@ const AppContent = () => {
           <Route path="/verificar" element={<VerificarAccount />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orderHistory" element={<OrderHistory />} />
+          <Route path="/producto/:id" element={<DetalleProducto />} />
         </Routes>
       </main>
       {!hideLayout && <Footer />}

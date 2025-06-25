@@ -62,7 +62,7 @@ const Header = ({ onOpenCart }) => {
           </a>
           <span>| Eventos Boutique</span>
           <FaShoppingCart className="icon" onClick={onOpenCart} style={{ cursor: 'pointer' }} />
-          <FaUser className="icon" />
+          {/* Enlace a WhatsApp */}
         </div>
       </div>
 
