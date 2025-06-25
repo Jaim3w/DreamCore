@@ -38,8 +38,8 @@ registerClientController.register = async (req, res) => {
     await newClient.save();
 
     // Generar código de verificación
-    const verificationCode = crypto.randomBytes(3).toString("hex");
-    const expiresAt = Date.now() + 2 * 60 * 60 * 1000; // 2 horas
+    const verificationCode = crypto.randomInt(10000, 99999).toString();
+    const expiresAt = Date.now() + 2 * 60 * 60 * 1000; 
 
     const tokenCode = jwt.sign(
       { email, verificationCode, expiresAt },
@@ -50,8 +50,10 @@ registerClientController.register = async (req, res) => {
     res.cookie("verificationToken", tokenCode, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "lax", // <-- Asegura que la cookie se envíe en desarrollo
       maxAge: 2 * 60 * 60 * 1000,
     });
+    console.log("Cookie enviada en registro"); // <-- Agrega este log
 
     // Configuración del correo electrónico
     const transporter = nodemailer.createTransport({
@@ -66,16 +68,17 @@ registerClientController.register = async (req, res) => {
       from: config.email.username,
       to: email,
       subject: "Verificación de correo electrónico - DreamCore",
-      text: `¡Hola ${name}!\n\nUtiliza este código para verificar tu cuenta: ${verificationCode}\nEste código expirará en 2 horas.\n\nSi no solicitaste este registro, puedes ignorar este correo.`,
+      text: `¡Hola ${name}!\n\nTu código de verificación es: ${verificationCode}\n(5 dígitos numéricos, válido por 2 horas)`,
     };
 
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Error enviando el correo" });
-      }
-      console.log("Correo enviado: " + info.response);
-    });
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (err) {
+      // Si falla el correo, elimina el usuario recién creado
+      await clientsModel.deleteOne({ email });
+      console.error(err);
+      return res.status(500).json({ message: "Error enviando el correo" });
+    }
 
     res.status(201).json({
       message: "Cliente registrado. Verifica tu correo con el código enviado.",
@@ -89,6 +92,7 @@ registerClientController.register = async (req, res) => {
 
 // VERIFICACIÓN DEL CÓDIGO DE EMAIL
 registerClientController.verifyCodeEmail = async (req, res) => {
+  console.log("Cookies recibidas:", req.cookies); // <-- Log para depuración
   const { verificationCode } = req.body;
   const token = req.cookies.verificationToken;
 

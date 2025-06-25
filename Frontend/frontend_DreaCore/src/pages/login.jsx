@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 import backgroundImage from "../assets/fonditobonito.png";
 import dreamCoreLogo from "../assets/DreamCore.png";
 import eyeOpen from "../assets/eye-open.png";
@@ -13,6 +15,8 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const { login } = useAuth();
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -23,36 +27,26 @@ function Login() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:4000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
+      const response = await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Error al iniciar sesión');
+      if (!response.ok) throw new Error(data.message || "Error al iniciar sesión");
+
+      if (data.token && data.user) {
+        localStorage.setItem("authToken", data.token);
+        // Guardamos user completo (debe incluir el _id)
+        login(data.user);  // Guarda en contexto y localStorage
+        
+        // Guarda userData para el localStorage (opcional si usas contexto)
+        localStorage.setItem("userData", JSON.stringify(data.user));
       }
 
-      // Si el login es exitoso, guardar el token
-      if (data.token) {
-        localStorage.setItem('authToken', data.token);
-        // Guardamos la información básica del usuario basada en el email
-        localStorage.setItem('userData', JSON.stringify({
-          email: email,
-          loginTime: new Date().toISOString()
-        }));
-      }
-
-      // Redirigir al home
-      navigate("/");
-      
+      navigate("/home");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -60,13 +54,8 @@ function Login() {
     }
   };
 
-  const irsingup = () => {
-    navigate("/signup");
-  };
-
-  const forgotPassword = () => {
-    navigate("/recoverpassword");
-  };
+  const irsignUp = () => navigate("/signup");
+  const forgotPassword = () => navigate("/recoverpassword");
 
   return (
     <div
@@ -77,13 +66,12 @@ function Login() {
         backgroundSize: "cover",
       }}
     >
-      {/* Card */}
       <div className="bg-white/70 backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-8 sm:max-w-md w-full max-w-xs">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm mt-4">
           <img
             className="mx-auto h-40 w-auto"
             src={dreamCoreLogo}
-            alt="Your Company"
+            alt="DreamCore Logo"
           />
           <h1 className="text-center text-2xl sm:text-3xl font-bold tracking-tight text-[#1C4C38]">
             Welcome Back
@@ -92,6 +80,7 @@ function Login() {
             Inicia sesión en tu cuenta
           </h2>
         </div>
+
         <div className="mt-8 sm:mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleLogin}>
             {error && (
@@ -99,44 +88,34 @@ function Login() {
                 {error}
               </div>
             )}
-            
+
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-900">
                 Email
               </label>
               <div className="mt-2">
                 <input
                   type="email"
-                  name="email"
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
                   required
                   placeholder="Enter your email"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
                 />
               </div>
             </div>
-            
+
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-900"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-900">
                 Password
               </label>
               <div className="mt-2 relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  name="password"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
                   required
                   placeholder="Enter your password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-sm sm:text-base text-gray-900 outline-1 outline-gray-300 placeholder:text-[#1C4C38] focus:outline-2 focus:outline-indigo-600"
@@ -153,8 +132,9 @@ function Login() {
                   />
                 </button>
               </div>
+
               <div className="mt-2 text-right">
-                <a 
+                <a
                   onClick={forgotPassword}
                   href="#"
                   className="font-semibold text-[#1C4C38] hover:text-[#1C4C38] cursor-pointer"
@@ -163,21 +143,21 @@ function Login() {
                 </a>
               </div>
             </div>
-            
+
             <div>
               <button
                 type="submit"
                 disabled={loading}
                 className="flex w-full justify-center rounded-md bg-[#1C4C38] px-3 py-1.5 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-[#14532D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1C4C38] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? "Signing in..." : "Sign in"}
               </button>
             </div>
-            
+
             <div className="text-center text-sm sm:text-base font-semibold text-gray-900">
               Don't have an account?{" "}
-              <a 
-                onClick={irsingup}
+              <a
+                onClick={irsignUp}
                 href="#"
                 className="text-[#1C4C38] hover:text-[#1C4C38] cursor-pointer"
               >

@@ -1,44 +1,51 @@
-// src/context/CartContext.jsx
+// src/context/CartContext.js
 import { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
-
-export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [productsInCart, setProductsInCart] = useState([]);
 
   const addToCart = (product) => {
     setProductsInCart((prev) => {
-      const exists = prev.find((p) => p._id === product._id);
-      if (exists) {
+      const existing = prev.find((p) => (p.id || p._id) === (product.id || product._id));
+      if (existing) {
         return prev.map((p) =>
-          p._id === product._id ? { ...p, quantity: p.quantity + 1 } : p
+          (p.id || p._id) === (product.id || product._id)
+            ? { ...p, quantity: p.quantity + 1 }
+            : p
         );
+      } else {
+        return [...prev, { ...product, quantity: 1 }];
       }
-      return [...prev, { ...product, quantity: 1 }];
     });
   };
 
   const removeFromCart = (id) => {
-    setProductsInCart((prev) => prev.filter((p) => p._id !== id));
+    setProductsInCart((prev) => prev.filter((p) => (p.id || p._id) !== id));
   };
 
-  const updateQuantity = (id, change) => {
+  const updateQuantity = (id, delta) => {
     setProductsInCart((prev) =>
-      prev.map((item) =>
-        item._id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + change) }
-          : item
+      prev.map((p) =>
+        (p.id || p._id) === id
+          ? { ...p, quantity: Math.max(1, p.quantity + delta) }
+          : p
       )
     );
   };
 
+  const clearCart = () => {
+    setProductsInCart([]); // ✅ Vaciar el carrito
+  };
+
   return (
     <CartContext.Provider
-      value={{ productsInCart, addToCart, removeFromCart, updateQuantity }}
+      value={{ productsInCart, addToCart, removeFromCart, updateQuantity, clearCart }} // ✅ Agregado aquí
     >
       {children}
     </CartContext.Provider>
   );
 };
+
+export const useCart = () => useContext(CartContext);

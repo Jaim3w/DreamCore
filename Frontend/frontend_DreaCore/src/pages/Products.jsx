@@ -1,19 +1,21 @@
+// Productos.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import ShoppingCart from './ShoppingCart';
 import '../components/styles/Products.css';
 
 const categorias = ['todo', 'sillas', 'manteles', 'copas', 'luces', 'mesas'];
 
-const Productos = () => {
+const Productos = ({ setMostrarHeader }) => {
   const { categoria } = useParams();
   const categoriaNormalizada = !categoria || categoria === 'todo' ? null : categoria;
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCart } = useCart();
-  const navigate = useNavigate();
+  const [mostrarCarrito, setMostrarCarrito] = useState(false);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -44,13 +46,21 @@ const Productos = () => {
     fetchProductos();
   }, [categoriaNormalizada]);
 
-  const handleAddToCart = (producto) => {
-    addToCart(producto);
-    navigate('/carrito'); // Redirigir al carrito
-  };
+const handleAddToCart = (producto) => {
+  addToCart(producto);
+  setMostrarCarrito(true);
+  setMostrarHeader(false); // Oculta el Header
+  document.body.style.overflow = 'hidden';
+};
+
+const handleCloseCart = () => {
+  setMostrarCarrito(false);
+  setMostrarHeader(true); // Muestra el Header nuevamente
+  document.body.style.overflow = 'auto';
+};
 
   return (
-    <div className="productos-container">
+    <div className="productos-container relative z-0">
       <aside className="sidebar-categorias">
         {categorias.map((cat) => {
           const display = cat.charAt(0).toUpperCase() + cat.slice(1);
@@ -87,6 +97,12 @@ const Productos = () => {
           </article>
         ))}
       </section>
+
+      {mostrarCarrito && (
+        <div className="fixed inset-0 z-50">
+          <ShoppingCart onClose={handleCloseCart} />
+        </div>
+      )}
     </div>
   );
 };
