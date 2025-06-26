@@ -11,7 +11,7 @@ const reviewsSchema = new Schema(
   {
     idClient: {
       type: Schema.Types.ObjectId,
-      ref: "clients", // Referencia a la colección de clientes
+      ref: "Clients", // Referencia a la colección de clientes
       required: [true, "El ID del cliente es obligatorio"],
     },
     idProduct: {

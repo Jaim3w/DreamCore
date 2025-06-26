@@ -24,24 +24,34 @@ const DetalleProducto = () => {
     console.log("🍪 Todas las cookies:", allCookies);
     
     // Busquemos diferentes nombres posibles de token
-    const possibleTokenNames = ['verificationToken', 'authToken', 'token', 'jwt', 'accessToken'];
-    let token = null;
-    let tokenName = null;
-    
-    for (const name of possibleTokenNames) {
-      const foundToken = document.cookie
-        .split(";")
-        .find((c) => c.trim().startsWith(`${name}=`))?.split("=")[1];
-      
-      if (foundToken) {
-        token = foundToken;
-        tokenName = name;
-        break;
-      }
+    const possibleTokenNames = ['authToken', 'token', 'jwt', 'accessToken', 'verificationToken'];
+let token = null;
+
+// 🔍 Primero revisar en localStorage
+for (const name of possibleTokenNames) {
+  const storedToken = localStorage.getItem(name);
+  if (storedToken) {
+    token = storedToken;
+    console.log(`🔑 Token encontrado en localStorage: ${name}`);
+    break;
+  }
+}
+
+// 🔍 Si no está en localStorage, revisar cookies (por compatibilidad)
+if (!token) {
+  for (const name of possibleTokenNames) {
+    const cookieToken = document.cookie
+      .split(";")
+      .find((c) => c.trim().startsWith(`${name}=`))?.split("=")[1];
+    if (cookieToken) {
+      token = cookieToken;
+      console.log(`🔑 Token encontrado en cookies: ${name}`);
+      break;
     }
+  }
+}
 
     console.log("🔑 Token encontrado:", token ? "SÍ" : "NO");
-    console.log("🔑 Nombre del token:", tokenName);
     
     if (token) {
       console.log("🔑 Token completo:", token);
@@ -355,28 +365,6 @@ const DetalleProducto = () => {
             Inicia sesión para dejar reseñas
           </p>
         )}
-
-        {/* 🔧 PANEL DE DEBUG TEMPORAL */}
-        <div className="bg-gray-100 p-3 rounded text-xs">
-          <h4 className="font-bold mb-2">DEBUG INFO:</h4>
-          <p><strong>Usuario ID:</strong> {usuarioActual || "No logueado"}</p>
-          <p><strong>Producto ID:</strong> {id}</p>
-          <p><strong>Reseña actual:</strong> "{reseña}"</p>
-          <p><strong>Total reviews:</strong> {reviews.length}</p>
-          <button 
-            onClick={() => {
-              console.log("=== ESTADO ACTUAL ===");
-              console.log("usuarioActual:", usuarioActual);
-              console.log("id:", id);
-              console.log("reseña:", reseña);
-              console.log("reviews:", reviews);
-              console.log("cookies:", document.cookie);
-            }}
-            className="mt-2 bg-blue-500 text-white px-2 py-1 rounded text-xs"
-          >
-            Mostrar Estado en Consola
-          </button>
-        </div>
 
         {/* 💬 Lista de reseñas */}
         <div className="grid sm:grid-cols-2 gap-2">
