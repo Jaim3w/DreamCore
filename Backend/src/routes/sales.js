@@ -1,14 +1,16 @@
-import express from 'express';
-const router = express.Router();
+import { Router } from 'express';
 import salesController from '../controllers/salesController.js';
 
-router.route('/')
-    .get(salesController.getSales)
-    .post(salesController.createSales);
+const router = Router();
 
-router.route('/:id')
-    .get(salesController.getSale)
-    .put(salesController.updateSales)
-    .delete(salesController.deleteSales);
+// Rutas existentes
+router.get('/', salesController.getSales);
+router.get('/:id', salesController.getSale);
+router.post('/', salesController.createSales);
+router.put('/:id', salesController.updateSales);
+router.delete('/:id', salesController.deleteSales);
+
+// **Nuevo endpoint** para el historial de un cliente
+router.get('/client/:clientId', salesController.getSalesByClient);
 
 export default router;

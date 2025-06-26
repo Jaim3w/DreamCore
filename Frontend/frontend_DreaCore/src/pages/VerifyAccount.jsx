@@ -1,35 +1,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import olvidasteContra from "../assets/olvidasteContra.png";
-import { useNavigate, useLocation } from "react-router-dom"; // Importar useLocation
+import { useNavigate, useLocation } from "react-router-dom";
 import BotonRecu from "../components/recuContra/BotonRecu";
 import InputDigito from "../components/recuContra/InputDigito";
+import toast, { Toaster } from "react-hot-toast"; // ✅ Importación aquí
 
 const VerificarAccount = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Hook para acceder a los datos de la ruta
-
-  // El backend genera un código de 5 dígitos, así que esto está correcto.
+  const location = useLocation();
   const [codigo, setCodigo] = useState(Array(5).fill(""));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const inputsRef = useRef([]);
-
-  // CORRECCIÓN 4 (Recomendada): Obtener el email para mostrarlo al usuario
   const email = location.state?.email;
 
   useEffect(() => {
-    // Enfocar el primer input al cargar el componente
     inputsRef.current[0]?.focus();
   }, []);
 
   const handleChange = (index, value) => {
-    // Permitir solo números y un solo caracter
     if (/^[0-9]$/.test(value) || value === "") {
       const newCodigo = [...codigo];
       newCodigo[index] = value;
       setCodigo(newCodigo);
-
       if (value && index < 4) {
         focusNext(index);
       }
@@ -42,13 +36,8 @@ const VerificarAccount = () => {
     }
   };
 
-  const focusNext = (index) => {
-    inputsRef.current[index + 1]?.focus();
-  };
-
-  const focusPrev = (index) => {
-    inputsRef.current[index - 1]?.focus();
-  };
+  const focusNext = (index) => inputsRef.current[index + 1]?.focus();
+  const focusPrev = (index) => inputsRef.current[index - 1]?.focus();
 
   const handleVerifyCode = async () => {
     const verificationCode = codigo.join("");
@@ -63,16 +52,11 @@ const VerificarAccount = () => {
 
     try {
       const response = await fetch(
-        
-        "http://localhost:4000/api/register/verifyCodeEmail", 
+        "http://localhost:4000/api/register/verifyCodeEmail",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-         
-          body: JSON.stringify({ verificationCode: verificationCode }),
-        
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ verificationCode }),
           credentials: "include",
         }
       );
@@ -82,8 +66,8 @@ const VerificarAccount = () => {
         throw new Error(errorData.message || "Código incorrecto o expirado");
       }
 
-      toast.success("¡Cuenta verificada exitosamente!");
-      setTimeout(() => navigate("/login"), 2000); // Redirige después de 2 segundos
+      toast.success("¡Cuenta verificada exitosamente!"); // ✅ TOAST AQUÍ
+      setTimeout(() => navigate("/login"), 2000);
 
     } catch (err) {
       setError(err.message || "Error al verificar el código");
@@ -94,8 +78,8 @@ const VerificarAccount = () => {
 
   return (
     <div className="min-h-screen w-full bg-white flex items-center justify-center p-4">
+      <Toaster position="top-center" reverseOrder={false} /> {/* ✅ TOASTER */}
       <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        {/* Lado Izquierdo */}
         <div className="p-4 md:p-10 flex flex-col justify-center">
           <h1 className="text-3xl md:text-4xl font-bold text-green-900 mb-4 md:mb-6 text-center md:text-left">
             DreamCore
@@ -104,19 +88,16 @@ const VerificarAccount = () => {
             Revisa tu correo
           </h2>
           <p className="text-sm md:text-base text-gray-600 mb-6 leading-relaxed text-center md:text-left">
-            {/* CORRECCIÓN 4 (Recomendada): Mensaje personalizado */}
             Enviamos un código de verificación de 5 dígitos a <strong>{email || "tu correo electrónico"}</strong>. 
             Por favor, ingrésalo a continuación:
           </p>
 
-          {/* Inputs para el código */}
           <div className="flex justify-center md:justify-start gap-3 mb-4">
             {codigo.map((digit, i) => (
               <InputDigito
                 key={i}
                 index={i}
                 value={digit}
-                // Simplificamos las props aquí
                 onChange={(index, value) => handleChange(index, value)}
                 onKeyDown={(e) => handleBackspace(e, i)}
                 ref={(el) => (inputsRef.current[i] = el)}
@@ -135,10 +116,8 @@ const VerificarAccount = () => {
               {loading ? "Verificando..." : "Verificar Código"}
             </BotonRecu>
           </div>
-          {/* ... El resto de tu JSX que ya está bien ... */}
         </div>
 
-        {/* Imagen animada */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}

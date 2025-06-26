@@ -22,8 +22,18 @@ const RecoverPassword = () => {
 
   const handleResetPassword = async () => {
     // Validaciones antes de empezar
-    if (!newPassword || !confirmPassword) {
+   if (!newPassword || !confirmPassword) {
       setError("Por favor, complete todos los campos.");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres.");
+      return;
+    }
+
+    if (!/[A-Z]/.test(newPassword)) {
+      setError("La contraseña debe contener al menos una mayúscula.");
       return;
     }
 

@@ -81,7 +81,7 @@ ordersControllers.createOrders = async (req, res) => {
     });
 
     await newOrder.save();
-    res.status(201).json({ message: "Order created" });
+res.status(201).json({ message: "Order created", orderId: newOrder._id });
   } catch (error) {
     console.error("Error en getOrder:", error);
 res.status(500).json({ 

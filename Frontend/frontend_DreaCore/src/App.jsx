@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'; 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext'; 
@@ -24,8 +24,9 @@ import VerificarAccount from './pages/VerifyAccount';
 import SplashScreen from './pages/splashScreen';
 import Orders from './pages/Orders';
 import OrderHistory from './pages/OrderHistory';
+import CreateSale from './pages/CreateSale';
+import SalesHistory from './pages/SalesHistory ';
 import DetalleProducto from './pages/DetalleProducto';
-
 const AppContent = () => {
   const location = useLocation();
   const [mostrarHeader, setMostrarHeader] = useState(true);
@@ -39,7 +40,7 @@ const AppContent = () => {
       {mostrarHeaderReal && <Header />}
       <main className="flex-grow">
         <Routes>
-          {/* Rutas públicas - No requieren autenticación */}
+          {/* Rutas públicas */}
           <Route path="/" element={<SplashScreen />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
@@ -48,7 +49,7 @@ const AppContent = () => {
           <Route path="/NewPassword" element={<NewPassword />} />
           <Route path="/verificar" element={<VerificarAccount />} />
 
-          {/* Rutas privadas - Requieren autenticación */}
+          {/* Rutas privadas */}
           <Route path="/home" element={<PrivateRoute element={<Home />} />} />
           <Route path="/about" element={<PrivateRoute element={<About />} />} />
           <Route path="/terminos" element={<PrivateRoute element={<Terminos />} />} />
@@ -58,6 +59,8 @@ const AppContent = () => {
           <Route path="/carrito" element={<PrivateRoute element={<ShoppingCart />} />} />
           <Route path="/orders" element={<PrivateRoute element={<Orders />} />} />
           <Route path="/orderHistory" element={<PrivateRoute element={<OrderHistory />} />} />
+          <Route path="/createSale" element={<PrivateRoute element={<CreateSale />} />} />
+          <Route path="/sales" element={<PrivateRoute element={<SalesHistory />} />} />
           <Route path="/perfil" element={<PrivateRoute element={<Perfil />} />} />
           <Route path="/producto/:id" element={<PrivateRoute element={<DetalleProducto />} />} />
         </Routes>

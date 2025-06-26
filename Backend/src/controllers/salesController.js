@@ -92,4 +92,32 @@ salesController.deleteSales = async (req, res) => {
     }
 }
 
+// Obtiene las ventas de un cliente específico
+salesController.getSalesByClient = async (req, res) => {
+  const { clientId } = req.params;
+
+  try {
+    // Buscamos solo las ventas cuyo idOrder referencie una orden de este cliente
+    const sales = await Sales.find()
+      .populate({
+        path: 'idOrder',
+        match: { idClient: clientId },       // filtra órdenes de este cliente
+        select: '_id idClient reservationDate total', 
+      })
+      .exec();
+
+    // Como populate devuelve null en idOrder para ventas de otros clientes, las filtramos:
+    const filtered = sales.filter(sale => sale.idOrder !== null);
+
+    res.status(200).json(filtered);
+  } catch (error) {
+    console.error('Error en getSalesByClient:', error);
+    res.status(500).json({
+      message: "Error al obtener el historial del cliente",
+      error: error.message,
+    });
+  }
+};
+
+
 export default salesController;

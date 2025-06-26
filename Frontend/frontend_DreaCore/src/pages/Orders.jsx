@@ -19,43 +19,51 @@ const Orders = () => {
   const minDate = today.toISOString().split("T")[0];
   const maxDate = new Date(today.setMonth(today.getMonth() + 2)).toISOString().split("T")[0];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!clientId) {
-      toast.error("Debes iniciar sesión para hacer una reserva.");
-      return;
-    }
+  if (!clientId) {
+    toast.error("Debes iniciar sesión para hacer una reserva.");
+    return;
+  }
 
-    const orderPayload = {
-      idClient: clientId,
-      reservationDate: date,
-      products: products.map((p) => ({
-        idProduct: p._id,
-        amount: p.quantity,
-        totalPartial: p.quantity * p.price,
-      })),
-      quantity: products.reduce((acc, p) => acc + p.quantity, 0),
-      total,
-    };
-
-    try {
-      const res = await fetch("http://localhost:4000/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(orderPayload),
-      });
-
-      if (!res.ok) throw new Error("Error al crear la orden");
-
-      clearCart();
-      toast.success("Reserva creada con éxito!");
-      setTimeout(() => navigate("/home"), 1500);
-    } catch (err) {
-      console.error("Error al crear la orden:", err);
-      toast.error(`Hubo un problema al crear la orden: ${err.message}`);
-    }
+  const orderPayload = {
+    idClient: clientId,
+    reservationDate: date,
+    products: products.map((p) => ({
+      idProduct: p._id,
+      amount: p.quantity,
+      totalPartial: p.quantity * p.price,
+    })),
+    quantity: products.reduce((acc, p) => acc + p.quantity, 0),
+    total,
   };
+
+  try {
+    const res = await fetch("http://localhost:4000/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(orderPayload),
+    });
+
+    if (!res.ok) throw new Error("Error al crear la orden");
+
+    const data = await res.json(); // ⬅️ Importante: obtener el id
+    const orderId = data.orderId;
+
+    if (!orderId) throw new Error("No se devolvió el ID de la orden");
+
+    clearCart();
+    toast.success("Reserva creada con éxito!");
+
+    setTimeout(() => {
+      navigate("/createSale", { state: { idOrder: orderId } });
+    }, 1500);
+  } catch (err) {
+    console.error("Error al crear la orden:", err);
+    toast.error(`Hubo un problema al crear la orden: ${err.message}`);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#F7F9F8] flex items-center justify-center px-6 py-10">
@@ -108,6 +116,7 @@ const Orders = () => {
 
         <button
           type="submit"
+          
           className="w-full py-3 text-white bg-[#1C4C38] rounded-xl font-semibold text-lg hover:bg-[#143226] transition-all mb-4"
         >
           Reservar Ahora
