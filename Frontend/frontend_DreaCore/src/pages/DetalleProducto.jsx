@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaMinus, FaPlus, FaShoppingCart } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+
 
 const DetalleProducto = () => {
   const { id } = useParams();
@@ -214,6 +216,7 @@ if (!token) {
       }
 
       const responseData = await response.json();
+      toast.success("Reseña creada exitosamente");
       console.log("✅ Reseña creada exitosamente:", responseData);
 
       // Limpiar input
@@ -265,6 +268,7 @@ if (!token) {
 
       // Actualizar la lista local inmediatamente
       setReviews(reviews.filter((r) => r._id !== reviewId));
+      toast.success("Reseña eliminada correctamente");
       console.log("Reseña eliminada:", reviewId); // Para debug
       
     } catch (error) {

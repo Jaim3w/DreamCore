@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext'; 
+import { toast, ToastContainer } from "react-toastify";
+import PrivateRoute from './components/PrivateRoute';
 
 import Home from './pages/Home';
 import About from './pages/About';
@@ -14,6 +16,7 @@ import CheckNumber from './pages/CheckNumber';
 import NewPassword from './pages/NewPassword';
 import Contactanos from './pages/Contactanos';
 import Categorias from './pages/Categories';
+import Perfil from './pages/Perfil';
 import Login from './pages/login';
 import ShoppingCart from './pages/ShoppingCart';
 import SignUp from './pages/SignUp';
@@ -36,23 +39,27 @@ const AppContent = () => {
       {mostrarHeaderReal && <Header />}
       <main className="flex-grow">
         <Routes>
+          {/* Rutas públicas - No requieren autenticación */}
           <Route path="/" element={<SplashScreen />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/terminos" element={<Terminos />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/RecoverPassword" element={<RecoverPassword />} />
           <Route path="/CheckNumber" element={<CheckNumber />} />
           <Route path="/NewPassword" element={<NewPassword />} />
-          <Route path="/productos" element={<Products setMostrarHeader={setMostrarHeader} />} />
-          <Route path="/productos/:categoria" element={<Products setMostrarHeader={setMostrarHeader} />} />
-          <Route path="/contactanos" element={<Contactanos />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/carrito" element={<ShoppingCart />} />
           <Route path="/verificar" element={<VerificarAccount />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/orderHistory" element={<OrderHistory />} />
-          <Route path="/producto/:id" element={<DetalleProducto />} />
+
+          {/* Rutas privadas - Requieren autenticación */}
+          <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+          <Route path="/about" element={<PrivateRoute element={<About />} />} />
+          <Route path="/terminos" element={<PrivateRoute element={<Terminos />} />} />
+          <Route path="/productos" element={<PrivateRoute element={<Products setMostrarHeader={setMostrarHeader} />} />} />
+          <Route path="/productos/:categoria" element={<PrivateRoute element={<Products setMostrarHeader={setMostrarHeader} />} />} />
+          <Route path="/contactanos" element={<PrivateRoute element={<Contactanos />} />} />
+          <Route path="/carrito" element={<PrivateRoute element={<ShoppingCart />} />} />
+          <Route path="/orders" element={<PrivateRoute element={<Orders />} />} />
+          <Route path="/orderHistory" element={<PrivateRoute element={<OrderHistory />} />} />
+          <Route path="/perfil" element={<PrivateRoute element={<Perfil />} />} />
+          <Route path="/producto/:id" element={<PrivateRoute element={<DetalleProducto />} />} />
         </Routes>
       </main>
       {!hideLayout && <Footer />}
@@ -65,6 +72,7 @@ function App() {
     <AuthProvider> 
       <CartProvider>
         <Router>
+          <ToastContainer/>
           <AppContent />
         </Router>
       </CartProvider>
