@@ -253,9 +253,7 @@ if (!token) {
 
   // Función mejorada para eliminar review
   const handleEliminarReview = async (reviewId) => {
-    if (!window.confirm("¿Estás seguro de que quieres eliminar esta reseña?")) {
-      return;
-    }
+    
 
     try {
       const response = await fetch(`http://localhost:4000/api/reviews/${reviewId}`, {
@@ -424,7 +422,7 @@ if (!token) {
 
         {/* 🛒 Botón para agregar al carrito */}
         <div className="bg-white p-4 rounded shadow">
-          <button className="w-full bg-green-700 text-white px-5 py-2 rounded flex justify-center items-center gap-2 hover:bg-green-800 transition-colors">
+          <button className="w-full bg-green-800 text-white px-5 py-2 rounded flex justify-center items-center gap-2 hover:bg-green-800">
             <FaShoppingCart />
             Agregar
           </button>

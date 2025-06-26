@@ -13,7 +13,7 @@ import{Schema,model} from "mongoose";
 const ordersSchema = new Schema({
   idClient: {
     type: Schema.Types.ObjectId,
-    ref: "clients",
+    ref: "Clients",
     required: true,
   },
   products: [{
