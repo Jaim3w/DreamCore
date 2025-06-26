@@ -82,9 +82,8 @@ const VerificarAccount = () => {
         throw new Error(errorData.message || "Código incorrecto o expirado");
       }
 
-      // Si todo va bien → Notifica y navega al login
-      alert("¡Cuenta verificada exitosamente!");
-      navigate("/login"); // Se recomienda navegar a /login para iniciar sesión
+      toast.success("¡Cuenta verificada exitosamente!");
+      setTimeout(() => navigate("/login"), 2000); // Redirige después de 2 segundos
 
     } catch (err) {
       setError(err.message || "Error al verificar el código");
