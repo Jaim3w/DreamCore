@@ -12,7 +12,8 @@ import productsRoutes from "./src/routes/Products.js";
 import ordersRoutes from "./src/routes/orders.js";
 import loginRoutes from "./src/routes/login.js";
 import logoutRoutes from "./src/routes/logout.js";
-import registerRoutes from "./src/routes/registerClient.js"; // 
+import registerRoutes from "./src/routes/registerClient.js"; 
+import  recoveryRoutes from "./src/routes/passwordRecoveryController.js"// 
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/register", registerRoutes); 
+app.use("/api/passwordRecovery",recoveryRoutes);
+
 
 // Ruta simple para comprobar si el backend responde
 app.head("/api", (req, res) => res.sendStatus(200));
