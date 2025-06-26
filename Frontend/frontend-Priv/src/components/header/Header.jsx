@@ -44,8 +44,6 @@ const Header = ({ onOpenCart }) => {
       <div className="top-bar">
         
         <div className="social-info">
-          <FaSignOutAlt className="icon" onClick={onOpenCart} style={{ cursor: 'pointer' }} />
-          <FaUser className="icon" />
         </div>
       </div>
 
