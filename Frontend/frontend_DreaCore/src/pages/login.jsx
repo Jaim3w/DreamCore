@@ -136,7 +136,7 @@ function Login() {
               <div className="mt-2 text-right">
                 <a
                   onClick={forgotPassword}
-                  href="#"
+                  href="/RecoverPassword"
                   className="font-semibold text-[#1C4C38] hover:text-[#1C4C38] cursor-pointer"
                 >
                   Forgot password?
